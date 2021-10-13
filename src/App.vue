@@ -1,28 +1,29 @@
 <template>
-  <header class="header">
-    <div class="container nav-logo">
-      <a href="#" class="logo"><img src="../src/assets/Team.png" alt=""></a>
-      <nav class="nav">
-        <ul>
-          <li><router-link to="/" v-if="!booleano" id="words">Home</router-link></li>
-          <li><a href="#Funcionalidades">Funcionalidades</a></li>
-          <li><router-link to="/Planes" id="words">Planes</router-link></li>
-          <li><router-link to="/LogIn" id="words">Login</router-link></li>
-          <li><router-link to="/Registro" id="words">Registro</router-link></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-
-  <body>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis nobis cumque soluta vel itaque, numquam doloribus laudantium pariatur consequuntur nostrum delectus amet sunt impedit, culpa, libero eum corrupti distinctio dolorem.
-    </p>
-  </body>
-  <router-view />
+    <header>
+      <div class="container nav-logo">
+        <a href="#" class="logo"
+          ><img src="../src/assets/image/Team.png" alt=""
+        /></a>
+        <nav class="nav">
+          <ul>
+            <li>
+              <router-link to="/" v-if="!booleano" id="words">Home</router-link>
+            </li>
+            <li><a href="#Funcionalidades">Funcionalidades</a></li>
+            <li><router-link to="/Planes" id="words">Planes</router-link></li>
+            <li><router-link to="/LogIn" id="words">Login</router-link></li>
+            <li>
+              <router-link to="/Registro" id="words">Registro</router-link>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <router-view />
 </template>
 
 <script>
+import './assets/css/global.css';
 // @ is an alias to /src
 
 export default {
@@ -33,7 +34,10 @@ export default {
 
 
 <style>
-
+body {
+    background-color: rgb(38, 40, 41);
+    padding: 7%;
+  }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -42,7 +46,7 @@ export default {
   color: #2c3e50;
 }
 
-.header{
+header {
   background-color: red;
   color: #ffffff;
   position: fixed;
@@ -51,51 +55,48 @@ export default {
   width: 100%;
 }
 
-.header a{
+header a {
   color: #ffffff;
   text-decoration: none;
   font-size: 15px;
 }
 
-.nav-logo{
+.nav-logo {
   background-color: green;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.container{
+.container {
   width: 100%;
   margin: 0 auto;
-  background-color:#04B579;
+  background-color: #04b579;
 }
-.logo img{
+.logo img {
   width: 15%;
   margin-left: -90px;
 }
 
-.nav ul{
+.nav ul {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.nav ul li{
+.nav ul li {
   display: inline-block;
 }
 
-.nav ul li a{
+.nav ul li a {
   display: block;
   padding: 0.5rem 1rem;
   transition: all 0.1s linear;
 }
 
-.nav ul li a:hover{
+.nav ul li a:hover {
   color: #dbdbdb;
 }
-
-
-
 
 /* #nav {
   padding: 25px;
@@ -107,7 +108,7 @@ export default {
 
 #nav a {
   /* font-weight: bold; */
-  /* color: #fdfdfd;
+/* color: #fdfdfd;
   text-decoration: none;
   font-size: 17px;
   margin: 5px;
