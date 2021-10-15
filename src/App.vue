@@ -2,7 +2,7 @@
     <header>
       <div class="container nav-logo">
         <a href="#" class="logo"
-          ><img src="../src/assets/image/Team.png" alt=""
+          ><img src="../src/assets/image/Team_Green.png" alt=""
         /></a>
         <nav class="nav">
           <ul>
