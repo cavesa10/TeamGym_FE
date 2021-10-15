@@ -37,6 +37,8 @@ export default {
 body {
     background-color: rgb(38, 40, 41);
     padding: 7%;
+    --main-color: rgb(38, 40, 41);
+
   }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -47,7 +49,6 @@ body {
 }
 
 header {
-  background-color: red;
   color: #ffffff;
   position: fixed;
   left: 0;
@@ -97,35 +98,6 @@ header a {
 .nav ul li a:hover {
   color: #dbdbdb;
 }
-
-/* #nav {
-  padding: 25px;
-  background: black;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-#nav a {
-  /* font-weight: bold; */
-/* color: #fdfdfd;
-  text-decoration: none;
-  font-size: 17px;
-  margin: 5px;
-}
-
-#nav a:hover {
-  color: rgb(143, 56, 56);
-}
-
-nav a nav-logo:hover {
-  text-decoration: none;
-  color: green;
-}
-
-#nav a.router-link-exact-active {
-  color: #b3b3b3;
-} */
 </style>
 
 
