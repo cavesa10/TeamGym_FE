@@ -28,7 +28,49 @@ import './assets/css/global.css';
 
 export default {
   name: "Home",
+    data: function () {
+    return {
+      is_auth: false,
+    };
+  },
   components: {},
+  methods: {
+    verifyAuth: function () {
+      this.is_auth = localStorage.getItem("isAuth") || false;
+      // if (this.is_auth == false) this.$router.push({ name: "logIn" });
+      // else this.$router.push({ name: "home" });
+    },
+    loadLogIn: function (event) {
+      this.$router.push({ name: "logIn" });
+    },
+    loadSignUp: function () {
+      this.$router.push({ name: "signUp" });
+    },
+    completedLogIn: function (data) {
+      console.log(data);
+      localStorage.setItem("isAuth", true);
+      localStorage.setItem("username", data.username);
+      localStorage.setItem("token_access", data.token_access);
+      localStorage.setItem("token_refresh", data.token_refresh);
+      this.verifyAuth();
+    },
+    completedSignUp: function (data) {
+      this.completedLogIn(data);
+    },
+    loadHome: function () {
+      this.$router.push({ name: "home" });
+    },
+    logOut: function () {
+      localStorage.clear();
+      this.verifyAuth();
+    },
+    loadAccount: function () {
+      this.$router.push({ name: "account" });
+    },
+  },
+  created: function () {
+    this.verifyAuth();
+  },
 };
 </script>
 

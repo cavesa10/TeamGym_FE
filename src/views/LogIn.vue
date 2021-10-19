@@ -1,33 +1,66 @@
 <template>
   <section  class="section-login">
-    <form class="form-login">
+    <form v-on:submit.prevent="processLogInUser" class="form-login">
       <h1>LOGIN</h1>
       <br />
       <div>
         <img id="icons" src="../assets/image/correo.png" /><input
-          type="email"
+          v-model="user.username"
+          type="text"
           placeholder="Ingresa tu usuario"
           required
         />
       </div>
       <div>
         <img id="icons" src="../assets/image/contraseña.png" /><input
+          v-model="user.password"
           type="password"
           placeholder="Ingresa tu contraseña"
           required
         />
       </div>
-      <button>Ingresar</button>
-      <a href="link recuperacion">Olvidaste tu contraseña?</a>
-      <a href="../html/registro.html">Registrate!</a>
+      <button type="submit" >Ingresar</button>
+      <a href="#">Olvidaste tu contraseña?</a>
+      <a href="#">Registrate!</a>
     </form>
   </section>
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "Registro",
+  data: function () {
+    return {
+      user: {
+        username: "",
+        password: "",
+      },
+    };
+  },
+  methods: {
+    processLogInUser: function () {
+      axios
+        .post("https://teamgym-be.herokuapp.com/login/", this.user, {
+          headers: {},
+        })
+        .then((result) => {
+          let dataLogIn = {
+            username: this.user.username,
+            token_access: result.data.access,
+            token_refresh: result.data.refresh,
+          };
+          alert(dataLogIn.username)
+          this.$emit("completedLogIn", dataLogIn);
+        })
+        .catch((error) => {
+          if (error.response.status == "401")
+            alert(error)
+        });
+    },
+  },
 };
+
 </script>
 
 <style>
