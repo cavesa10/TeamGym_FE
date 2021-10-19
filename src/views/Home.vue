@@ -4,10 +4,12 @@
 
 <script>
 import Funcionalidades from "../components/Funcionalidades.vue"
+import Loading from "../components/Loading.vue"
 export default {
   name: 'Home',
   components: {
-    Funcionalidades
+    Funcionalidades,
+    Loading
   }
 }
 </script>

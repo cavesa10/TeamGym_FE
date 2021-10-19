@@ -33,6 +33,7 @@
         </div>
       </div>
     </div>
+    <div class="divisor"></div>
     <div class="screen-2">
       <img id="img-2" src="../assets/image/ejercicioProfile.png" />
       <h2>Imc actual: 23.5<!--dato desde la base de datos js--></h2>
@@ -47,23 +48,41 @@
 
 .container-perfil {
   display: flex;
-  flex-direction: row;
-  height: 100%;
-  align-items: center
 }
 .screen-1 {
-  background-color: var(--main-color);
+  background-color: rgb(38, 40, 41);
   width: 60%;
   flex-direction: column;
-  height: 100%;
+}
+.divisor {
+  font-size: 6.2rem;
+  animation: pulsate 1.5s infinite alternate;
+  border: 0.01rem solid #fff;
+
+  box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 0.2rem #69fe13,
+    0 0 0.4rem #69fe13, 0 0 0.4rem #69fe13, inset 0 0 0.3rem #69fe13;
+}
+
+@keyframes pulsate {
+  100% {
+    text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px #69fe13,
+      0 0 80px #69fe13, 0 0 90px #69fe13, 0 0 100px #69fe13, 0 0 150px #69fe13;
+  }
+
+  0% {
+    text-shadow: 0 0 2px #fff, 0 0 4px #fff, 0 0 6px #fff, 0 0 10px #69fe13,
+      0 0 45px #69fe13, 0 0 55px #69fe13, 0 0 70px #69fe13, 0 0 80px #69fe13;
+  }
 }
 .screen-2 {
-  background-color: rgb(38, 40, 41);
   width: 40%;
   font-family: "Orbitron", sans-serif;
   color: rgb(68, 212, 68);
   font-size: 25px;
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .username {
@@ -80,10 +99,10 @@
   flex-direction: row;
   justify-content: space-evenly;
 }
-.username-basic{
+.username-basic {
   display: flex;
   flex-direction: column;
-  align-items: flex-start
+  align-items: flex-start;
 }
 .letra {
   font-family: "Open Sans", sans-serif;
@@ -112,6 +131,5 @@
 #img-2 {
   width: 200px;
   height: 200px;
-  align-items: left;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-<section name="Funcionalidades">
+<section id="funcionalidades" name="Funcionalidades">
     <h1>Estas son nuestras funcionalidades.</h1>
 
 </section>

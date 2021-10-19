@@ -7,9 +7,9 @@
         <nav class="nav">
           <ul>
             <li>
-              <router-link to="/" v-if="!booleano" id="words">Home</router-link>
+              <router-link to="/" id="words">Home</router-link>
             </li>
-            <li><a href="#Funcionalidades">Funcionalidades</a></li>
+            <li><a href="#funcionalidades">Funcionalidades</a></li>
             <li><router-link to="/Planes" id="words">Planes</router-link></li>
             <li><router-link to="/LogIn" id="words">Login</router-link></li>
             <li>
@@ -37,7 +37,7 @@ export default {
 body {
     background-color: rgb(38, 40, 41);
     padding: 7%;
-    --main-color: rgb(38, 40, 41);
+    --fondo-black-principal: rgb(38, 40, 41);
 
   }
 #app {
