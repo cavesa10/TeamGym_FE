@@ -1,51 +1,173 @@
 <template>
-  <div class="container-perfil">
-    <div class="screen-1">
-      <img class="img-profile-man" src="../assets/image/man.png" />
-      <div class="username">
-        <div class="username-basic">
-          <h2 class="letra">Username</h2>
-          <h2 class="letra">Correo</h2>
-          <h2 class="letra">Nombres</h2>
-          <h2 class="letra">Apellidos</h2>
-          <h2 class="letra">Fecha Nacimiento</h2>
+  <section class="containers">
+    <div v-if="loaded" class="container-perfil">
+      <div class="screen-1">
+        <img class="img-profile-man" src="../assets/image/man.png" />
+        <div class="username">
+          <div class="username-basic">
+            <h2 class="letra">Usuario</h2>
+            <span>{{ username }}</span>
+            <h2 class="letra">Correo</h2>
+            <span>{{ email }}</span>
+            <h2 class="letra">Nombres</h2>
+            <span>{{ name }}</span>
+            <h2 class="letra">Apellidos</h2>
+            <span>{{ last_name }}</span>
+          </div>
+          <div class="username-basic">
+            <h2 class="letra">Frecuencia Física</h2>
+            <span>{{frequencia_fisica}}</span>
+            <h2 class="letra">Objetivo</h2>
+            <span>{{objetivo_usuario}}</span>
+            <h2 class="letra">Genero</h2>
+            <span>{{genero}}</span>
+            <h2 class="letra">Plan</h2>
+            <span>{{plan_id}}</span>
+          </div>
         </div>
-        <div class="username-basic">
-          <h2 class="letra">Frecuencia Física</h2>
-          <h2 class="letra">Objetivo</h2>
-          <h2 class="letra">Sexo</h2>
-          <h2 class="letra">Plan</h2>
+        <h2 id="informe">Informe plan</h2>
+        <div class="imcData">
+          <div>
+            <h2 class="letra-2">Peso </h2>
+            <h2 class="letra-2-data">{{peso}} <span>Kg</span> </h2>
+          </div>
+          <div>
+            <h2 class="letra-2">Estatura:</h2>
+            <h2 class="letra-2-data"> {{estatura}} <span>m</span> </h2>
+          </div>
+          <div>
+            <h2 class="letra-2">Edad</h2>
+            <h2 class="letra-2-data">{{edad}}</h2>
+          </div>
         </div>
       </div>
-      <h2 id="informe">Informe plan</h2>
-      <div class="imcData">
-        <div>
-          <h2 class="letra-2">Peso (Kg)</h2>
-          <h2 class="letra-2-data">70</h2>
-        </div>
-        <div>
-          <h2 class="letra-2">Estatura:</h2>
-          <h2 class="letra-2-data">1,7</h2>
-        </div>
-        <div>
-          <h2 class="letra-2">Edad</h2>
-          <h2 class="letra-2-data">25</h2>
-        </div>
+      <div class="divisor"></div>
+      <div class="screen-2">
+        <img id="img-2" src="../assets/image/ejercicioProfile.png" />
+        <h2>Imc actual: {{imc}}<!--dato desde la base de datos js--></h2>
+        <h2>Tu objetivo: {{objetivo_usuario}} <!--bd js--></h2>
       </div>
     </div>
-    <div class="divisor"></div>
-    <div class="screen-2">
-      <img id="img-2" src="../assets/image/ejercicioProfile.png" />
-      <h2>Imc actual: 23.5<!--dato desde la base de datos js--></h2>
-      <h2>Tu objetivo:Bajar de peso<!--bd js--></h2>
+  </section>
+  <section v-if="!loaded" class="container-load">
+    <div>
+      <Loading></Loading>
     </div>
-  </div>
+  </section>
 </template>
 
-<style>
+<script>
+import jwt_decode from "jwt-decode";
+import axios from "axios";
+import Loading from "./../components/Loading.vue";
+export default {
+  name: "Account",
+  components: {
+    Loading,
+  },
+  data: function () {
+    return {
+      username: "",
+      email: "",
+      name: "",
+      last_name: "",
+      edad: 0,
+      frequencia_fisica: "",
+      objetivo_usuario: "",
+      estatura: 0,
+      peso: 0,
+      genero: "",
+      plan_id: 0,
+      imc: [{}],
+      loaded: false,
+    };
+  },
+  methods: {
+    getData: async function () {
+      if (
+        localStorage.getItem("token_access") === null ||
+        localStorage.getItem("token_refresh") === null
+      ) {
+        this.$emit("logOut");
+        return;
+      }
+      await this.verifyToken();
+      let token = localStorage.getItem("token_access");
+      let userId = jwt_decode(token).user_id.toString();
+
+      axios
+        .get(`https://teamgym-be.herokuapp.com/user/${userId}/`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((result) => {
+          this.username = result.data.username;
+          this.email = result.data.email;
+          this.name = result.data.name;
+          this.last_name = result.data.last_name;
+          this.edad = this.calcularEdad(result.data.fecha_nacimiento);
+          this.frequencia_fisica = result.data.frequencia_fisica;
+          this.objetivo_usuario = result.data.objetivo_usuario;
+          this.estatura = result.data.estatura;
+          this.peso = result.data.peso;
+          this.genero = result.data.genero;
+          this.plan_id = result.data.plan_id;
+          this.imcs = result.data.imc;
+          this.imc = this.ultimoImc(result.data.imc)
+          this.loaded = true;
+          console.log(result.status);
+          console.log(result);
+          console.log();
+        })
+        .catch(() => {
+          this.$emit("logOut");
+        });
+    },
+    verifyToken: function () {
+      return axios
+        .post(
+          "https://teamgym-be.herokuapp.com/user/refresh/",
+          { refresh: localStorage.getItem("token_refresh") },
+          { headers: {} }
+        )
+        .then((result) => {
+          localStorage.setItem("token_access", result.data.access);
+        })
+        .catch(() => {
+          this.$emit("logOut");
+        });
+    },
+    calcularEdad: function (fecha_nacimiento) {
+      var hoy = new Date();
+      var nacimiento = new Date(fecha_nacimiento);
+      var edad = hoy.getFullYear() - nacimiento.getFullYear();
+      var m = hoy.getMonth() - nacimiento.getMonth();
+      if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) {
+        edad--;
+      }
+      return edad;
+    },
+    ultimoImc: function(imc){
+      return imc[imc.length -1].imc_value
+    }
+  },
+  created: async function () {
+    this.getData();
+  },
+};
+</script>
+
+<style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap");
-
+span {
+  color: rgb(68, 212, 68);
+}
+.container-load {
+  height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .container-perfil {
   display: flex;
 }

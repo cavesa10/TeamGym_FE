@@ -31,7 +31,7 @@
             <router-link v-if="is_auth" to="/Perfil">Mi Plan</router-link>
           </li>
           <li>
-            <router-link v-if="is_auth" to="/">Cerrar Sesión</router-link>
+            <router-link v-if="is_auth" v-on:click="logOut" to="/">Cerrar Sesión</router-link>
           </li>
         </ul>
       </nav>
@@ -62,7 +62,7 @@ export default {
 
   methods: {
     verifyAuth: function () {
-      if (this.is_auth == false) this.$router.push({ name: "Home" });
+      this.is_auth = localStorage.getItem("isAuth") || false;
     },
     loadLogIn: function () {
       this.$router.push({ name: "logIn" });
@@ -70,8 +70,18 @@ export default {
     loadSignUp: function () {
       this.$router.push({ name: "Registro" });
     },
+     logOut: function () {
+      localStorage.clear();
+      this.verifyAuth();
+    },
     completedLogIn: function (data) {
-      
+      localStorage.setItem("isAuth", true);
+      localStorage.setItem("username", data.username);
+      localStorage.setItem("token_access", data.token_access);
+      localStorage.setItem("token_refresh", data.token_refresh);
+      this.$router.push({ name: "Perfil" });
+      this.verifyAuth();
+
     },
     completedSignUp: function (data) {},
   },

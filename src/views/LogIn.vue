@@ -1,6 +1,6 @@
 <template>
   <section class="section-login">
-    <form v-on:submit.prevent="processLogInUser" class="form-login">
+    <form v-on:submit.prevent="processLogInUser" class="form-login" autocomplete="on">
       <h1>Iniciar Sesión</h1>
       <div class="label-form">
         <div class="input-form">
