@@ -1,0 +1,8 @@
+{
+  "include": [
+    "./indes.ts",
+  ],
+    "types": [
+      "vue-sweetalert2",
+    ],
+}

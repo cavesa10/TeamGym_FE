@@ -1,58 +1,84 @@
 <template>
-    <header>
-      <div class="container nav-logo">
-        <a href="Home" class="logo"><img src="../src/assets/image/Team_Green.png" alt="Logo TeamGym"></a>
-        <nav class="nav">
-          <ul>
-            <li><router-link v-if="!is_auth" to="/" id="words">Inicio</router-link></li>
-            <li><router-link v-if="!is_auth" to="/" id="words">Funcionalidades</router-link></li>
-            <li><router-link v-if="!is_auth" to="/" id="words">Planes</router-link></li>
-            <li><router-link v-if="!is_auth" v-on:click="loadSignUp" to="/Registro">Registrarse</router-link></li>
-            <li><router-link v-if="!is_auth" v-on:click="loadLogIn" to="/LogIn">Iniciar Sesión</router-link></li>
-            <li><router-link v-if="is_auth" to="/Perfil">Mi Plan</router-link></li>
-            <li><router-link v-if="is_auth" to="/">Cerrar Sesión</router-link></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
-    <div class="main-component">
-      <router-view v-on:completedLogIn="completedLogIn" v-on:completedSignUp="completedSignUp"></router-view>
+  <header>
+    <div class="container nav-logo">
+      <a href="Home" class="logo"
+        ><img src="../src/assets/image/Team_Green.png" alt="Logo TeamGym"
+      /></a>
+      <nav class="nav">
+        <ul>
+          <li>
+            <router-link v-if="!is_auth" to="/" id="words">Inicio</router-link>
+          </li>
+          <li>
+            <router-link v-if="!is_auth" to="/" id="words"
+              >Funcionalidades</router-link
+            >
+          </li>
+          <li>
+            <router-link v-if="!is_auth" to="/" id="words">Planes</router-link>
+          </li>
+          <li>
+            <router-link v-if="!is_auth" v-on:click="loadSignUp" to="/Registro"
+              >Registrarse</router-link
+            >
+          </li>
+          <li>
+            <router-link v-if="!is_auth" v-on:click="loadLogIn" to="/LogIn"
+              >Iniciar Sesión</router-link
+            >
+          </li>
+          <li>
+            <router-link v-if="is_auth" to="/Perfil">Mi Plan</router-link>
+          </li>
+          <li>
+            <router-link v-if="is_auth" to="/">Cerrar Sesión</router-link>
+          </li>
+        </ul>
+      </nav>
     </div>
+  </header>
+  <div class="main-component">
+    <router-view
+      v-on:completedLogIn="completedLogIn"
+      v-on:completedSignUp="completedSignUp"
+    ></router-view>
+  </div>
 </template>
 
 
 
 
 <script>
-import './assets/css/global.css';
+import "./assets/css/global.css";
 
 export default {
-  name: 'Home',
-  data: function(){
-    return{
-      is_auth: false
-      }
-    },
+  name: "Home",
+  data: function () {
+    return {
+      is_auth: false,
+    };
+  },
   components: {},
-  
-  methods:{
-    verifyAuth: function() {
-      if(this.is_auth == false)
-      this.$router.push({name: "Home"})
-      },
-    loadLogIn: function(){
-      this.$router.push({name: "logIn"})
-      },
-    loadSignUp: function(){
-      this.$router.push({name: "Registro"})
-      },
-    completedLogIn: function(data) {},
-    completedSignUp: function(data) {},
+
+  methods: {
+    verifyAuth: function () {
+      if (this.is_auth == false) this.$router.push({ name: "Home" });
     },
-    created: function(){
-      this.verifyAuth()
-      }
-    }
+    loadLogIn: function () {
+      this.$router.push({ name: "logIn" });
+    },
+    loadSignUp: function () {
+      this.$router.push({ name: "Registro" });
+    },
+    completedLogIn: function (data) {
+      
+    },
+    completedSignUp: function (data) {},
+  },
+  created: function () {
+    this.verifyAuth();
+  },
+};
 </script>
 
 
@@ -60,11 +86,10 @@ export default {
 
 <style>
 body {
-    background-color: rgb(38, 40, 41);
-    padding: 7%;
-    --fondo-black-principal: rgb(38, 40, 41);
-
-  }
+  background-color: rgb(38, 40, 41);
+  padding: 7%;
+  --fondo-black-principal: rgb(38, 40, 41);
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
