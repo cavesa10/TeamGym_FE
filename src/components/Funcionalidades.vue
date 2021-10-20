@@ -96,6 +96,7 @@ h2
   font-size: 50px;
   margin-top: 80px;
   font-family: "Orbitron", sans-serif;
+  text-align: center;
 }
 .button
 {
