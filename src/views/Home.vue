@@ -1,15 +1,12 @@
 <template>
   <div class="container-perfil">
     <div class="screen-1">
-      <img class="img-profile-man" src="../assets/image/home.jpg" />
-      <div class="username">
+      <img class="img-profile-man" src="../assets/image/home_1.png">
     </div>
-    </div>
-    
     <div class="screen-2">
-      <h1>Cumple<br>tu meta</h1>
+      <h1>Cumple<br>tú meta</h1>
       <h2>Descubre cómo alcanzar tu objetivo!</h2>
-      <input class="button" type="button" onclick=" location.href='http://www.google.com' " value="Prueba nuestros planes" name="boton" /> 
+      <input class="button" type="button" onclick=" location.href='http://www.google.com' " value="Prueba nuestros planes" name="boton"> 
     </div>
   </div>
   <Funcionalidades/>
@@ -53,22 +50,19 @@ export default {
   width: 650px;
   height: 700px;
 }
-h1
-{
+h1{
   color: #fff;
   font-size: 130px;
   margin-top: 1px;
 }
-h2
-{
+h2{
   color: #fff;
   margin-top: -70px;
   font-size: 30px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   margin-bottom: 100px;
 }
-.button
-{
+.button{
   background-color: #04B579;
   color: #fff;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -77,10 +71,8 @@ h2
   width: 70%;
   height: 90px;
 }
-.button:hover
-{
+.button:hover{
   cursor:pointer;
   background-color: #29c08e;
-
 }
 </style>

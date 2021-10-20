@@ -2,7 +2,7 @@
 <div class="container-perfil">
     <div class="screen-1">
       <h2 class="subtitle">NUESTRAS<br>FUNCIONALIDADES</h2>
-      <img class="img-profile-man" src="../assets/image/man.png" />
+      <img class="img-profile-man" src="../assets/image/home_2.png" />
       <div class="username">
     </div>
     </div>
@@ -121,6 +121,7 @@ h2
 {
   background-color: rgb(45, 48, 49);
   transition-duration: 0.3s;
+  cursor: default;
   
 }
 </style>

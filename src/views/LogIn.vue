@@ -1,35 +1,31 @@
 <template>
   <section  class="section-login">
     <form v-on:submit.prevent="processLogInUser" class="form-login">
-      <h1>LOGIN</h1>
-      <br />
-      <div>
-        <img id="icons" src="../assets/image/correo.png" /><input
-          v-model="user.username"
-          type="text"
-          placeholder="Ingresa tu usuario"
-          required
-        />
+      <h1>Iniciar Sesión</h1>
+      <div class="label-form">
+        <div class="input-form">
+          <input class="icon-email" v-model="user.username" type="text" placeholder="Ingresa tu usuario" required>
+        </div>
+        <div class="input-form">
+          <input class="icon-pass" v-model="user.password" type="password" placeholder="Ingresa tu contraseña" required>
+        </div>
       </div>
       <div>
-        <img id="icons" src="../assets/image/contraseña.png" /><input
-          v-model="user.password"
-          type="password"
-          placeholder="Ingresa tu contraseña"
-          required
-        />
+      <button class="button-design" type="submit">Ingresar</button>
+      <p>¿No tienes una cuenta?</p>
+      <a class="link-signUp" href="./Registro"><strong>Registrarse</strong></a>
       </div>
-      <button type="submit" >Ingresar</button>
-      <a href="#">Olvidaste tu contraseña?</a>
-      <a href="#">Registrate!</a>
     </form>
   </section>
 </template>
 
+
+
+
 <script>
 import axios from "axios";
 export default {
-  name: "Registro",
+  name: "LogIn",
   data: function () {
     return {
       user: {
@@ -50,18 +46,19 @@ export default {
             token_access: result.data.access,
             token_refresh: result.data.refresh,
           };
-          alert(dataLogIn.username)
           this.$emit("completedLogIn", dataLogIn);
         })
         .catch((error) => {
           if (error.response.status == "401")
-            alert(error)
+            alert("ERROR 401: Credenciales Incorrectas.");
         });
     },
   },
 };
-
 </script>
+
+
+
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap");
@@ -70,9 +67,8 @@ export default {
 
 .form-login {
   background-color: rgb(255, 254, 254);
-  color: rgb(39, 41, 41);
   width: 100%;
-  max-width: 600px;
+  max-width: 650px;
   height: 600px;
   margin: auto;
   display: flex;
@@ -83,41 +79,73 @@ export default {
 }
 h1 {
   font-family: "Orbitron", sans-serif;
-  color: rgb(68, 212, 68);
-  font-size: 50px;
+  color: #04b579;
+  font-size: 60px;
+  margin-top: -200px;
+  margin-top: 0%;
 }
+.input-form{
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
 .form-login input {
-  width: 80%;
-  height: 30px;
-  margin: 0.4rem;
-  background-color: rgba(92, 91, 91, 0.329);
-  border: none;
+    width: 300px;
+    background-color: #e6e6e6;
+    border-radius: 10px;
+    border: none;
+    height: 20px;
+    padding: 10px 50px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    margin-top: 20px;
+    
 }
-.form-login button {
-  border-radius: 60px;
-  color: white;
-  background-color: rgb(68, 212, 68);
-  font-size: 25px;
-  margin: 0.4rem;
-  border-color: green;
+
+.icon-email , .icon-pass:focus{
+    outline: none;
 }
-.form-login a {
-  font-family: "Open Sans", sans-serif;
-  font-size: 15px;
+
+
+.icon-email{
+    background-image: url(../assets/image/correo.png);
+    background-size: 25px 25px;
+    background-repeat: no-repeat;
+    background-position: 4.5% 65%;
+}
+
+.icon-pass{
+    background-image: url(../assets/image/contrasena.png);
+    background-size: 25px 25px;
+    background-repeat: no-repeat;
+    background-position: 4% 65%;
+}
+
+.button-design{
+  background-color: #04B579;
+  color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  border-radius: 50px;
+  border-style: none;
+  width: 100%;
+  height: 50px;
+}
+.form-login button:hover{
+  cursor:pointer;
+  background-color: #29c08e;
+}
+
+.link-signUp{
   text-decoration: none;
-  color: black;
-  margin: 0.5rem;
+  color: #000;
+  margin-top: -10px;
 }
-.form-login label {
-  font-family: "Open Sans", sans-serif;
-  font-size: 20px;
-  color: black;
-  margin: 0.3rem;
-  justify-content: left;
-  width: 80%;
+
+.button-design{
+  margin-top: 25%;
 }
-#icons {
-  width: 25px;
-  height: 25px;
-}
+
 </style>

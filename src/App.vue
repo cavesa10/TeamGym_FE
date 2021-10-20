@@ -1,78 +1,61 @@
 <template>
     <header>
       <div class="container nav-logo">
-        <a href="#" class="logo"
-          ><img src="../src/assets/image/Team_Green.png" alt=""
-        /></a>
+        <a href="Home" class="logo"><img src="../src/assets/image/Team_Green.png" alt="Logo TeamGym"></a>
         <nav class="nav">
           <ul>
-            <li>
-              <router-link to="/" id="words">Home</router-link>
-            </li>
-            <li><a href="#funcionalidades">Funcionalidades</a></li>
-            <li><router-link to="/Planes" id="words">Planes</router-link></li>
-            <li><router-link to="/LogIn" id="words">Login</router-link></li>
-            <li>
-              <router-link to="/Registro" id="words">Registro</router-link>
-            </li>
+            <li><router-link v-if="!is_auth" to="/" id="words">Inicio</router-link></li>
+            <li><router-link v-if="!is_auth" to="/" id="words">Funcionalidades</router-link></li>
+            <li><router-link v-if="!is_auth" to="/" id="words">Planes</router-link></li>
+            <li><router-link v-if="!is_auth" v-on:click="loadSignUp" to="/Registro">Registrarse</router-link></li>
+            <li><router-link v-if="!is_auth" v-on:click="loadLogIn" to="/LogIn">Iniciar Sesión</router-link></li>
+            <li><router-link v-if="is_auth" to="/Perfil">Mi Plan</router-link></li>
+            <li><router-link v-if="is_auth" to="/">Cerrar Sesión</router-link></li>
           </ul>
         </nav>
       </div>
     </header>
-    <router-view />
+    <div class="main-component">
+      <router-view v-on:completedLogIn="completedLogIn" v-on:completedSignUp="completedSignUp"></router-view>
+    </div>
 </template>
+
+
+
 
 <script>
 import './assets/css/global.css';
-// @ is an alias to /src
 
 export default {
-  name: "Home",
-    data: function () {
-    return {
-      is_auth: false,
-    };
-  },
+  name: 'Home',
+  data: function(){
+    return{
+      is_auth: false
+      }
+    },
   components: {},
-  methods: {
-    verifyAuth: function () {
-      this.is_auth = localStorage.getItem("isAuth") || false;
-      // if (this.is_auth == false) this.$router.push({ name: "logIn" });
-      // else this.$router.push({ name: "home" });
+  
+  methods:{
+    verifyAuth: function() {
+      if(this.is_auth == false)
+      this.$router.push({name: "Home"})
+      },
+    loadLogIn: function(){
+      this.$router.push({name: "logIn"})
+      },
+    loadSignUp: function(){
+      this.$router.push({name: "Registro"})
+      },
+    completedLogIn: function(data) {},
+    completedSignUp: function(data) {},
     },
-    loadLogIn: function (event) {
-      this.$router.push({ name: "logIn" });
-    },
-    loadSignUp: function () {
-      this.$router.push({ name: "signUp" });
-    },
-    completedLogIn: function (data) {
-      console.log(data);
-      localStorage.setItem("isAuth", true);
-      localStorage.setItem("username", data.username);
-      localStorage.setItem("token_access", data.token_access);
-      localStorage.setItem("token_refresh", data.token_refresh);
-      this.verifyAuth();
-    },
-    completedSignUp: function (data) {
-      this.completedLogIn(data);
-    },
-    loadHome: function () {
-      this.$router.push({ name: "home" });
-    },
-    logOut: function () {
-      localStorage.clear();
-      this.verifyAuth();
-    },
-    loadAccount: function () {
-      this.$router.push({ name: "account" });
-    },
-  },
-  created: function () {
-    this.verifyAuth();
-  },
-};
+    created: function(){
+      this.verifyAuth()
+      }
+    }
 </script>
+
+
 
 
 <style>
@@ -105,7 +88,7 @@ header a {
 }
 
 .nav-logo {
-  background-color: green;
+  background-color: 04b579;
   display: flex;
   justify-content: space-between;
   align-items: center;
