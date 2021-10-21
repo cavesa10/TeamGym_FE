@@ -15,21 +15,45 @@
 
 				</p>
 
-				<p class="footer-company-name">Team Gym 2021</p>
+				<p class="footer-company-name">Team Gym © 2021</p>
+                
 
     </div>
     <div class="center">
-        <img class="correo" src="../assets/image/correo.png" alt="">
-        <a href="https://mail.google.com/mail/u/0/#inbox?compose=new"><strong>gymteamp7@gmail.com</strong></a>
+        <div class="center-icons">
+					<i class="fa fa-map-marker fa fa-envelope"><img class="icon-foot" src="../assets/image/mail.png" alt=""></i>
+                    <p><a href="mailto:gymteamp7@gmail.com">gymteamp7@gmail.com</a></p>
+				</div>
+
+				<div>
+					<i></i>
+					<p></p>
+				</div>
+
+				<div>
+					<i class="fa fa-map-marker"><img class="icon-foot" src="../assets/image/coding.png" alt=""></i>
+					<p><span>Developed by</span> MisionTic 2022 Students</p>
+				</div>
 
     </div>
     <div class="right">
-        <h3>3</h3>
+        <p class="footer-company-about">
+            <span>Acerca de TeamGym</span>
+             TeamGym fue diseñado con el proposito de ayudar a las personas a obtener habitos mas saludables. <br>
+             El aplicativo web consta con la opcion de ingresar datos del usuario para generar el IMC y un plan de ejercicio <br>
+             donde el usuario podra conocer mas a fondo que ejercicios realizar.
+
+    </p>
     </div>
 </footer>
 </template>
 
 <style scoped>
+
+* {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
 .main
 {
     background-color: darkgreen;
@@ -43,28 +67,51 @@
 
 .left
 {
-    background-color: blue;
+    background-color: #1b1c1d;
     display: inline-block;
-    width: 33%;
+    width: 29%;
     vertical-align: top;
     padding:9px;
 
 }
 .center
 {
-    background-color: brown;
+    background-color: #1b1c1d;
     flex-direction: row;
     align-items: center;
-    width: 33%;
+    width: 37%;
     color: #fff;
     text-align: center;
 }
 .right
 {
-    background-color: coral;
+    background-color: #1b1c1d;
     flex-direction: row;
     align-items: right;
     width: 34%;
+    display: inline-block;
+	vertical-align: top;
+}
+
+.main .footer-company-about{
+	line-height: 20px;
+	color:  #92999f;
+	font-size: 13px;
+	font-weight: normal;
+	margin: 0;
+    
+}
+
+.main .footer-company-about span{
+	display: block;
+	color:  #ffffff;
+	font-size: 20px;
+	font-weight: bold;
+	margin-bottom: 20px;
+    margin-top: 30px;
+}
+.center-icons{
+    margin-top: 35px;
 }
 #logo
 {
@@ -93,7 +140,7 @@
 
 .main .footer-company-name{
     position: absolute;
-	color:  #222;
+	color:  rgb(194, 194, 194);
 	font-size: 14px;
 	font-weight: normal;
 	margin: 0;
@@ -123,7 +170,49 @@ a
     position: absolute;
     width: 40px;
     height: 40px;
+}
+
+.main .center i{
+	
+	color: #ffffff;
+	font-size: 25px;
+	width: 38px;
+	height: 38px;
+	border-radius: 50%;
+	text-align: center;
+	line-height: 80px;
+	margin: 10px 15px;
+	vertical-align: middle;
+}
+
+.main .center i.fa-envelope{
+	font-size: 17px;
+	line-height: 38px;
+}
+
+.main .center p{
+	display: inline-block;
+	color: #ffffff;
+    font-weight:400;
+	vertical-align: middle;
+	margin:0;
+}
+
+.main .center p span{
+	display:block;
+	font-weight: normal;
+	font-size:14px;
+	line-height:2;
+}
+
+.main .center p a{
+	color:  lightseagreen;
+	text-decoration: none;;
+}
 
 
+.icon-foot{
+width: 25px;
+height: 25px;
 }
 </style>

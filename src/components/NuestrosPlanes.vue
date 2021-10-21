@@ -48,6 +48,8 @@
   cursor: pointer;
   background-color: #33b68a;
   transition-duration: 0.2s;
+  width: 30%;
+  height: 100%;
   box-shadow: inset 500px 0 0 0 #33b98d;
 }
 img {

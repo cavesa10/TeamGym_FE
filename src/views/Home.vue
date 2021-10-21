@@ -36,6 +36,7 @@ export default {
 
 .container-perfil {
   display: flex;
+  margin-top: 115px;
 }
 .screen-1 {
   background-color: rgb(38, 40, 41);
