@@ -33,37 +33,37 @@
             />
             <label for="nombres">Nombres</label>
             <input
-              v-model="user.fname"
+              v-model="user.name"
               type="text"
-              id="fname"
-              name="fname"
+              id="name"
+              name="name"
               required
             />
-            <label for="apellido">Apellidos</label>
+            <label for="last_name">Apellidos</label>
             <input
-              v-model="user.apellido"
+              v-model="user.last_name"
               type="text"
-              id="apellido"
-              name="apellido"
+              id="last_name"
+              name="last_name"
               required
             />
-            <label for="fnacimiento">Fecha de Nacimiento</label>
+            <label for="fecha_nacimiento">Fecha de Nacimiento</label>
             <input
-              v-model="user.fnacimiento"
+              v-model="user.fecha_nacimiento"
               type="date"
-              id="fnacimiento"
-              name="fnacimiento"
+              id="fecha_nacimiento"
+              name="fecha_nacimiento"
               required
             />
           </div>
           <div class="middle"></div>
           <div class="metric-data">
-            <label for="frecuencia">Frecuencia Física</label>
+            <label for="frequencia_fisica">Frecuencia Física</label>
             <select
-              v-model="user.frecuencia"
+              v-model="user.frequencia_fisica"
               class="select-registro"
-              id="frecuencia"
-              name="frecuencia"
+              id="frequencia_fisica"
+              name="frequencia_fisica"
               required
             >
               <option value="Seleccione una opción" selected>
@@ -73,12 +73,12 @@
               <option value="Media">Media</option>
               <option value="Intensa">Intensa</option>
             </select>
-            <label for="objetivoU">Objetivo</label>
+            <label for="objetivo_usuarioU">objetivo_usuario</label>
             <select
-              v-model="user.objetivo"
+              v-model="user.objetivo_usuario"
               class="select-registro"
-              id="objetivo"
-              name="objetivo"
+              id="objetivo_usuario"
+              name="objetivo_usuario"
               required
             >
               <option value="Seleccione una opción" selected>
@@ -106,12 +106,12 @@
               name="peso"
               required
             />
-            <label for="sexo">Sexo</label>
+            <label for="genero">Genero</label>
             <select
-              v-model="user.sexo"
+              v-model="user.genero"
               class="select-registro"
-              id="sexo"
-              name="sexo"
+              id="genero"
+              name="genero"
               required
             >
               <option value="Seleccione una opción" selected>
@@ -121,12 +121,12 @@
               <option value="Femenino">Femenino</option>
               <option value="Prefiero no decirlo">Prefiero no decirlo</option>
             </select>
-            <label for="plan">Plan</label>
+            <label for="plan_id">Plan</label>
             <select
-              v-model="user.plan"
+              v-model="user.plan_id"
               class="select-registro"
-              id="plan"
-              name="plan"
+              id="plan_id"
+              name="plan_id"
               required
             >
               <option value="0" selected>Seleccione una opción</option>
@@ -146,8 +146,6 @@
 </template>
 
 
-
-
 <script>
 import axios from "axios";
 export default {
@@ -158,15 +156,15 @@ export default {
         username: "",
         password: "",
         email: "",
-        fname: "",
-        apellido: "",
-        fnacimiento: "",
-        frecuencia: "",
-        objetivo: "",
-        estatura: "",
-        peso: "",
-        sexo: "",
-        plan: "",
+        name: "",
+        last_name: "",
+        fecha_nacimiento: "",
+        frequencia_fisica: "",
+        objetivo_usuario: "",
+        estatura: 0,
+        peso: 0,
+        genero: "",
+        plan_id: "",
       },
     };
   },

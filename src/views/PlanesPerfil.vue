@@ -27,16 +27,11 @@
 </template>
 
 <script>
-import Videos from "@/components/Videos.vue";
-
 import jwt_decode from "jwt-decode";
 import axios from "axios";
 
 export default {
   name: "Home",
-  components: {
-    Videos,
-  },
   data: function () {
     return {
       namePlan: "",
@@ -69,10 +64,10 @@ export default {
               headers: { Authorization: `Bearer ${token}` },
             })
             .then((result) => {
-              console.log(result)
+
               this.idVideoFirst = result.data.videos[0].video_url;
               this.videos = result.data.videos;
-              console.log(result.data.videos)
+
             })
             .catch(() => {
               this.$emit("logOut");
@@ -97,9 +92,12 @@ export default {
         });
     },
     stringTonumberIdPlan: function (namePlan) {
-      if (namePlan == "Intermedio") {
-        console.log(this.namePlan);
+      if (namePlan == "Básico") {
+        return 1;
+      }else if (namePlan == "Intermedio") {
         return 2;
+      } else {
+        return 3;
       }
     },
     playVid(videoId){
