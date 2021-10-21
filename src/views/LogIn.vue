@@ -83,6 +83,9 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap");
 
+.section-login{
+  margin-top: 150px;
+}
 .form-login {
   background-color: rgb(255, 254, 254);
   width: 100%;

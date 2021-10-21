@@ -195,8 +195,12 @@ export default {
 
 
 
-<style>
+<style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap");
+
+.main{
+  margin-top: 150px;
+}
 
 .registro {
   background-color: rgb(255, 254, 254);
