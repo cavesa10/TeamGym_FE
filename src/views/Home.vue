@@ -11,18 +11,21 @@
   </div>
   <Funcionalidades/>
   <NuestrosPlanes/>
+  <Footer/>
 </template>
 
 <script>
 import Funcionalidades from "../components/Funcionalidades.vue"
 import Loading from "../components/Loading.vue"
 import NuestrosPlanes from "../components/NuestrosPlanes.vue"
+import Footer from "../components/Footer.vue"
 export default {
   name: 'Home',
   components: {
     Funcionalidades,
     Loading,
-    NuestrosPlanes
+    NuestrosPlanes,
+    Footer
   }
 }
 </script>
