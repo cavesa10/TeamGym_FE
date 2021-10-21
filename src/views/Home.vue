@@ -15,14 +15,14 @@
 
 <script>
 import Funcionalidades from "../components/Funcionalidades.vue"
-import NuestrosPlanes from "../components/NuestrosPlanes.vue"
 import Loading from "../components/Loading.vue"
+import NuestrosPlanes from "../components/NuestrosPlanes.vue"
 export default {
   name: 'Home',
   components: {
     Funcionalidades,
-    NuestrosPlanes,
-    Loading
+    Loading,
+    NuestrosPlanes
   }
 }
 </script>

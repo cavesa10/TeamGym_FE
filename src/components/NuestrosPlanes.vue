@@ -5,15 +5,15 @@
     <div class="contenedor-NP"> 
         <a href="https://www.google.com/"> <div class="contenedores-NP">
             <h2 class="words">BAJAR DE PESO</h2>
-            <img src="../assets/image/man.png" alt="Bajar de peso">
+            <img src="../assets/image/service_2.png" alt="Bajar de peso">
         </div></a>
         <a href="https://www.google.com/"> <div class="contenedores-NP">
             <h2 class="words">ESTAR EN FORMA</h2>
-            <img src="../assets/image/man.png" alt="estar en forma">
+            <img src="../assets/image/service_1.png" alt="estar en forma">
         </div> </a>
         <a href="https://www.google.com/"><div class="contenedores-NP">
             <h2 class="words">GANAR MUSCULO</h2>
-            <img src="../assets/image/man.png" alt="Ganar musculo">
+            <img src="../assets/image/service_3.png" alt="Ganar musculo">
         </div></a>
     </div> 
 </section>
@@ -36,11 +36,18 @@
     height: 100%;
     flex-direction: row;
     border: 6px solid rgb(38, 40, 41);
+    box-shadow: inset 0 0 0 0 #33b98d;
+    transition: ease-out 0.3s;
 }
 .contenedores-NP:hover
 {
+    width: 500px;
+    height: ;
     cursor: pointer;
     background-color: #33b68a;
+    transition-duration: 0.2s;
+    box-shadow: inset 500px 0 0 0 #33b98d;
+    
 }
 .main
 {
