@@ -1,5 +1,5 @@
 <template>
-<div class="container-perfil">
+<div class="container-perfil" >
     <div class="screen-1">
       <h2 class="subtitle">NUESTRAS<br>FUNCIONALIDADES</h2>
       <img class="img-profile-man" src="../assets/image/home_2.png" />
