@@ -1,7 +1,7 @@
 <template>
   <header>
     <div class="container nav-logo">
-      <a href="Home" class="logo"
+      <a href="#" class="logo"
         ><img src="../src/assets/image/Team_Green.png" alt="Logo TeamGym"
       /></a>
       <nav class="nav">
@@ -23,7 +23,7 @@
             >
           </li>
           <li>
-            <router-link v-if="!is_auth" v-on:click="loadLogIn" to="/LogIn"
+            <router-link v-if="!is_auth"  to="/LogIn"
               >Iniciar Sesión</router-link
             >
           </li>
@@ -63,9 +63,6 @@ export default {
   methods: {
     verifyAuth: function () {
       this.is_auth = localStorage.getItem("isAuth") || false;
-    },
-    loadLogIn: function () {
-      this.$router.push({ name: "logIn" });
     },
     loadSignUp: function () {
       this.$router.push({ name: "Registro" });

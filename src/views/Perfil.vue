@@ -125,7 +125,7 @@ export default {
     verifyToken: function () {
       return axios
         .post(
-          "https://teamgym-be.herokuapp.com/user/refresh/",
+          "https://teamgym-be.herokuapp.com/refresh/",
           { refresh: localStorage.getItem("token_refresh") },
           { headers: {} }
         )
@@ -148,7 +148,7 @@ export default {
     },
     ultimoImc: function(imc){
       return imc[imc.length -1].imc_value
-    }
+    },
   },
   created: async function () {
     this.getData();

@@ -3,6 +3,7 @@ import Home from '../views/Home.vue'
 import LogIn from '../views/LogIn.vue'
 import Registro from '../views/Registro.vue'
 import Perfil from '../views/Perfil.vue'
+import PlanesPerfil from '../views/PlanesPerfil.vue'
 
 const routes = [{
         path: '/',
@@ -24,6 +25,11 @@ const routes = [{
         path: '/Perfil',
         name: 'Perfil',
         component: Perfil
+    },
+    {
+        path: '/PlanesPerfil',
+        name: 'PlanesPerfil',
+        component: PlanesPerfil
     }
 ]
 
