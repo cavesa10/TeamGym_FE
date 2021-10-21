@@ -1,23 +1,22 @@
 <template>
 <footer class="main">
-
     <div class="left">
         <img id="logo" src="../assets/image/favicon.png" alt="Logo">
         <p class="footer-links">
 					<a href="#" class="link-1">Inicio</a>
-					
+
 					<a href="#">Funcionalidades</a>
-				
+
 					<a href="#">Planes</a>
-				
+
 					<a href="#">Registro</a>
-					
+
 					<a href="#">Iniciar sesión</a>
-					
+
 				</p>
 
 				<p class="footer-company-name">Team Gym 2021</p>
-			
+
     </div>
     <div class="center">
         <img class="correo" src="../assets/image/correo.png" alt="">
@@ -27,7 +26,6 @@
     <div class="right">
         <h3>3</h3>
     </div>
-
 </footer>
 </template>
 
@@ -35,28 +33,22 @@
 .main
 {
     background-color: darkgreen;
+    margin-top: 300px;
     width: 100%;
-    position: absolute;
-    margin-bottom: -120%;
     display: flex;
     height: 250px;
     box-sizing: border-box;
     text-align: left;
-    left: 0;
-    bottom: 0;
 }
 
-
-
-
-.main .left
+.left
 {
     background-color: blue;
     display: inline-block;
     width: 33%;
     vertical-align: top;
     padding:9px;
-    
+
 }
 .center
 {
@@ -127,11 +119,11 @@ a
     color: #fff;
 }
 .correo
-{   
+{
     position: absolute;
     width: 40px;
     height: 40px;
-    
-    
+
+
 }
 </style>

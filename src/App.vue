@@ -95,7 +95,7 @@ export default {
 <style>
 body {
   background-color: rgb(38, 40, 41);
-  padding: 7%;
+
   --fondo-black-principal: rgb(38, 40, 41);
 }
 #app {
