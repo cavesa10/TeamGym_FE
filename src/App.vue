@@ -98,6 +98,7 @@ body {
 
   --fondo-black-principal: rgb(38, 40, 41);
 }
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

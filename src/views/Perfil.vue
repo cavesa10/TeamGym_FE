@@ -162,6 +162,9 @@ export default {
 span {
   color: rgb(68, 212, 68);
 }
+.containers{
+  margin: 10% 10% 0 10%;
+}
 .container-load {
   height: 60vh;
   display: flex;
