@@ -42,7 +42,6 @@
 .contenedores-NP:hover
 {
     width: 500px;
-    height: ;
     cursor: pointer;
     background-color: #33b68a;
     transition-duration: 0.2s;
