@@ -18,12 +18,12 @@
             <router-link v-if="!is_auth" to="/" id="words">Planes</router-link>
           </li>
           <li>
-            <router-link v-if="!is_auth" v-on:click="loadSignUp" to="/Registro"
+            <router-link v-if="!is_auth" to="/Registro"
               >Registrarse</router-link
             >
           </li>
           <li>
-            <router-link v-if="!is_auth"  to="/LogIn"
+            <router-link v-if="!is_auth" to="/LogIn"
               >Iniciar Sesión</router-link
             >
           </li>
@@ -34,7 +34,9 @@
             <router-link v-if="is_auth" to="/PlanesPerfil">Mi Plan</router-link>
           </li>
           <li>
-            <router-link v-if="is_auth" v-on:click="logOut" to="/">Cerrar Sesión</router-link>
+            <router-link v-if="is_auth" v-on:click="logOut" to="/"
+              >Cerrar Sesión</router-link
+            >
           </li>
         </ul>
       </nav>
@@ -53,11 +55,10 @@
 
 
 <script>
-
 import "./assets/css/global.css";
 
 export default {
-  name: "Home",
+  emits: ["completedLogIn", "completedSignUp", "logOut"],
   data: function () {
     return {
       is_auth: false,
@@ -69,10 +70,7 @@ export default {
     verifyAuth: function () {
       this.is_auth = localStorage.getItem("isAuth") || false;
     },
-    loadSignUp: function () {
-      this.$router.push({ name: "Registro" });
-    },
-     logOut: function () {
+    logOut: function () {
       localStorage.clear();
       this.verifyAuth();
     },
@@ -83,10 +81,24 @@ export default {
       localStorage.setItem("token_refresh", data.token_refresh);
       this.$router.push({ name: "Perfil" });
       this.verifyAuth();
-
     },
     completedSignUp: function (data) {
+      this.showAlertExito();
       this.completedLogIn(data);
+    },
+    showAlertExito() {
+      // Use sweetalert2
+      this.$swal.fire({
+        icon: "success",
+        title: "Registro exitoso",
+        text: "Presione Ok para continuar",
+        background: "rgb(255, 254, 254)",
+        confirmButtonColor: "#04b579",
+        inputValidator: () => {
+            this.$router.push({ name: "Perfil" });
+
+        },
+      });
     },
   },
   created: function () {

@@ -16,36 +16,36 @@
           </div>
           <div class="username-basic">
             <h2 class="letra">Frecuencia Física</h2>
-            <span>{{frequencia_fisica}}</span>
+            <span>{{ frequencia_fisica }}</span>
             <h2 class="letra">Objetivo</h2>
-            <span>{{objetivo_usuario}}</span>
+            <span>{{ objetivo_usuario }}</span>
             <h2 class="letra">Genero</h2>
-            <span>{{genero}}</span>
+            <span>{{ genero }}</span>
             <h2 class="letra">Plan</h2>
-            <span>{{plan_id}}</span>
+            <span>{{ plan_id }}</span>
           </div>
         </div>
         <h2 id="informe">Informe plan</h2>
         <div class="imcData">
           <div>
-            <h2 class="letra-2">Peso </h2>
-            <h2 class="letra-2-data">{{peso}} <span>Kg</span> </h2>
+            <h2 class="letra-2">Peso</h2>
+            <h2 class="letra-2-data">{{ peso }} <span>Kg</span></h2>
           </div>
           <div>
             <h2 class="letra-2">Estatura:</h2>
-            <h2 class="letra-2-data"> {{estatura}} <span>m</span> </h2>
+            <h2 class="letra-2-data">{{ estatura }} <span>m</span></h2>
           </div>
           <div>
             <h2 class="letra-2">Edad</h2>
-            <h2 class="letra-2-data">{{edad}}</h2>
+            <h2 class="letra-2-data">{{ edad }}</h2>
           </div>
         </div>
       </div>
       <div class="divisor"></div>
       <div class="screen-2">
         <img id="img-2" src="../assets/image/ejercicioProfile.png" />
-        <h2>Imc actual: {{imc}}<!--dato desde la base de datos js--></h2>
-        <h2>Tu objetivo: {{objetivo_usuario}} <!--bd js--></h2>
+        <h2>Imc actual: {{ imc }}</h2>
+        <h2>Tu objetivo: {{ objetivo_usuario }}</h2>
       </div>
     </div>
   </section>
@@ -62,6 +62,7 @@ import axios from "axios";
 import Loading from "./../components/Loading.vue";
 export default {
   name: "Account",
+  emits: ["completedLogIn", "completedSignUp", "logOut"],
   components: {
     Loading,
   },
@@ -78,7 +79,8 @@ export default {
       peso: 0,
       genero: "",
       plan_id: 0,
-      imc: [{}],
+      imcs: [{}],
+      imc: 0,
       loaded: false,
     };
   },
@@ -88,7 +90,8 @@ export default {
         localStorage.getItem("token_access") === null ||
         localStorage.getItem("token_refresh") === null
       ) {
-        this.$emit("logOut");
+        localStorage.clear();
+        this.$router.push({ name: "Home" });
         return;
       }
       await this.verifyToken();
@@ -112,11 +115,14 @@ export default {
           this.genero = result.data.genero;
           this.plan_id = result.data.plan_id;
           this.imcs = result.data.imc;
-          this.imc = this.ultimoImc(result.data.imc)
+          this.imc = this.ultimoImc(result.data.imc);
           this.loaded = true;
+          console.log(result.data.fecha_nacimiento)
         })
         .catch(() => {
-          this.$emit("logOut");
+          localStorage.clear();
+          this.$router.push({ name: "Home" });
+          return;
         });
     },
     verifyToken: function () {
@@ -130,12 +136,15 @@ export default {
           localStorage.setItem("token_access", result.data.access);
         })
         .catch(() => {
-          this.$emit("logOut");
+          localStorage.clear();
+          this.$router.push({ name: "Home" });
+          return;
         });
     },
     calcularEdad: function (fecha_nacimiento) {
       var hoy = new Date();
       var nacimiento = new Date(fecha_nacimiento);
+      nacimiento = new Date(nacimiento.setMinutes(nacimiento.getMinutes() + nacimiento.getTimezoneOffset()));
       var edad = hoy.getFullYear() - nacimiento.getFullYear();
       var m = hoy.getMonth() - nacimiento.getMonth();
       if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) {
@@ -143,8 +152,8 @@ export default {
       }
       return edad;
     },
-    ultimoImc: function(imc){
-      return imc[imc.length -1].imc_value
+    ultimoImc: function (imc) {
+      return imc[imc.length - 1].imc_value;
     },
   },
   created: async function () {
@@ -159,8 +168,8 @@ export default {
 span {
   color: rgb(68, 212, 68);
 }
-.containers{
-  margin: 10% 10% 0 10%;
+.containers {
+  margin: 150px 9% 0 9%;
 }
 .container-load {
   height: 60vh;
@@ -173,7 +182,7 @@ span {
 }
 .screen-1 {
   background-color: rgb(38, 40, 41);
-  width: 60%;
+  width: 56%;
   flex-direction: column;
 }
 .divisor {
@@ -197,7 +206,7 @@ span {
   }
 }
 .screen-2 {
-  width: 40%;
+  width: 44%;
   font-family: "Orbitron", sans-serif;
   color: rgb(68, 212, 68);
   font-size: 25px;
@@ -205,6 +214,8 @@ span {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
+  align-content: flex-end;
 }
 
 .username {

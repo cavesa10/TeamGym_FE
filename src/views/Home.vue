@@ -21,6 +21,7 @@ import NuestrosPlanes from "../components/NuestrosPlanes.vue"
 import Footer from "../components/Footer.vue"
 export default {
   name: 'Home',
+  emits: ["completedLogIn","completedSignUp","logOut"],
   components: {
     Funcionalidades,
     Loading,

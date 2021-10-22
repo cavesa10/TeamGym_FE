@@ -1,6 +1,10 @@
 <template>
   <section class="section-login">
-    <form v-on:submit.prevent="processLogInUser" class="form-login" autocomplete="on">
+    <form
+      v-on:submit.prevent="processLogInUser"
+      class="form-login"
+      autocomplete="on"
+    >
       <h1>Iniciar Sesión</h1>
       <div class="label-form">
         <div class="input-form">
@@ -35,6 +39,7 @@
 import axios from "axios";
 export default {
   name: "LogIn",
+  emits: ["completedLogIn"],
   data: function () {
     return {
       user: {
@@ -44,14 +49,24 @@ export default {
     };
   },
   methods: {
-    showAlertError() {
+    showAlertErrorCredencial() {
       // Use sweetalert2
       this.$swal.fire({
         icon: "error",
         title: "Oops...",
         text: "Usuario o contraseña incorrecta",
         background: "rgb(255, 254, 254)",
-        confirmButtonColor: "#04b579"
+        confirmButtonColor: "#04b579",
+      });
+    },
+    showAlertErrorServidor() {
+      // Use sweetalert2
+      this.$swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Error al iniciar sesión, intente más tarde",
+        background: "rgb(255, 254, 254)",
+        confirmButtonColor: "#04b579",
       });
     },
     processLogInUser: function () {
@@ -68,22 +83,25 @@ export default {
           this.$emit("completedLogIn", dataLogIn);
         })
         .catch((error) => {
-          if(error.response.data.detail="No active account found with the given credentials")
-            this.showAlertError()
+          if (
+            (error.response.data.detail =
+              "No active account found with the given credentials")
+          ) {
+            this.showAlertErrorCredencial();
+          } else {
+            this.showAlertErrorServidor();
+          }
         });
     },
   },
 };
 </script>
 
-
-
-
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap");
 
-.section-login{
+.section-login {
   margin-top: 150px;
 }
 .form-login {

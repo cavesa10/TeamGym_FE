@@ -32,6 +32,7 @@ import axios from "axios";
 
 export default {
   name: "Home",
+  emits: ["completedLogIn","completedSignUp","logOut"],
   data: function () {
     return {
       namePlan: "",
@@ -45,7 +46,8 @@ export default {
         localStorage.getItem("token_access") === null ||
         localStorage.getItem("token_refresh") === null
       ) {
-        this.$emit("logOut");
+        localStorage.clear();
+        this.$router.push({ name: "Home" });
         return;
       }
       await this.verifyToken();
@@ -70,11 +72,13 @@ export default {
 
             })
             .catch(() => {
-              this.$emit("logOut");
+              localStorage.clear();
+              this.$router.push({ name: "Home" });
             });
         })
         .catch(() => {
-          this.$emit("logOut");
+          localStorage.clear();
+          this.$router.push({ name: "Home" });
         });
     },
     verifyToken: function () {
@@ -88,7 +92,8 @@ export default {
           localStorage.setItem("token_access", result.data.access);
         })
         .catch(() => {
-          this.$emit("logOut");
+          localStorage.clear();
+          this.$router.push({ name: "Home" });
         });
     },
     stringTonumberIdPlan: function (namePlan) {
@@ -113,7 +118,7 @@ export default {
 <style scoped>
 .container-videos-planes {
   display: flex;
-  margin: 150px 10% 0 10%;
+  margin: 150px 10% 150px 10%;
 }
 .lista-resproduccion {
   width: 25%;
@@ -121,7 +126,34 @@ export default {
   background-color: #fff;
   border-right: 1px solid #ddd;
   min-height: 1px;
+  overflow:auto;
 }
+
+.lista-resproduccion::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+.lista-resproduccion::-webkit-scrollbar:vertical {
+    width:10px;
+}
+.lista-resproduccion::-webkit-scrollbar-button:increment,.lista-resproduccion::-webkit-scrollbar-button {
+    display: none;
+}
+
+.lista-resproduccion::-webkit-scrollbar:horizontal {
+    height: 10px;
+}
+
+.lista-resproduccion::-webkit-scrollbar-thumb {
+    background-color: #797979;
+    border-radius: 20px;
+    border: 2px solid #f1f2f3;
+}
+
+.lista-resproduccion::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
 .ctitle {
   margin: 20px 0 30px 0;
   cursor: pointer;
@@ -139,6 +171,7 @@ export default {
   padding: 0;
   list-style: none;
   width: 100%;
+  margin-bottom: 40px;
 }
 ul.episodios li {
   display: flex;
@@ -147,7 +180,7 @@ ul.episodios li {
   border: 1px solid #eee;
   background-color: #efefef;
   cursor: pointer;
-  width: 85%;
+  width: 83%;
   padding: 10px 15px;
 }
 h3.etitle {

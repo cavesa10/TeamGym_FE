@@ -417,3 +417,28 @@ template {
 [hidden] {
     display: none;
 }
+
+body::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+body::-webkit-scrollbar:vertical {
+    width:10px;
+}
+body::-webkit-scrollbar-button:increment,body::-webkit-scrollbar-button {
+    display: none;
+}
+
+body::-webkit-scrollbar:horizontal {
+    height: 10px;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #797979;
+    /* border-radius: 20px; */
+    /* border: 1px solid rgb(38, 40, 41); */
+}
+
+body::-webkit-scrollbar-track {
+    border-radius: 10px;
+}

@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <div class="registro" >
+    <div class="registro">
       <br />
       <h1>REGISTRESE</h1>
       <br />
@@ -52,7 +52,7 @@
             <label for="fecha_nacimiento">Fecha de Nacimiento</label>
             <input
               v-model="user.fecha_nacimiento"
-              type="text"
+              type="date"
               id="fecha_nacimiento"
               name="fecha_nacimiento"
               required
@@ -92,12 +92,13 @@
                 Aumentar masa muscular
               </option>
             </select>
-            <label for="estatura">Estura (cm)</label>
+            <label for="estatura">Estura (metros)</label>
             <input
               v-model="user.estatura"
               type="number"
               id="estatura"
               name="estatura"
+              step="0.10" min="0.1" max="3"
               required
             />
             <label for="peso">Peso (Kg)</label>
@@ -152,6 +153,7 @@
 import axios from "axios";
 export default {
   name: "Registro",
+  emits: ["completedSignUp"],
   data: function () {
     return {
       user: {
@@ -172,6 +174,16 @@ export default {
   },
 
   methods: {
+    showAlertErrorCredencial() {
+      // Use sweetalert2
+      this.$swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Error al llenar el formulario",
+        background: "rgb(255, 254, 254)",
+        confirmButtonColor: "#04b579",
+      });
+    },
     processSignUp: function () {
       axios
         .post("https://teamgym-be.herokuapp.com/user/", this.user, {
@@ -187,7 +199,7 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          alert("ERROR: Fallo en el registro.");
+          this.showAlertErrorCredencial()
         });
     },
   },
@@ -200,7 +212,7 @@ export default {
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap");
 
-.main{
+.main {
   margin-top: 150px;
 }
 
