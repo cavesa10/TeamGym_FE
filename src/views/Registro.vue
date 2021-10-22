@@ -58,7 +58,6 @@
               required
             />
           </div>
-          <div class="middle"></div>
           <div class="metric-data">
             <label for="frequencia_fisica">Frecuencia Física</label>
             <select
@@ -68,9 +67,6 @@
               name="frequencia_fisica"
               required
             >
-              <option value="Seleccione una opción" selected>
-                Seleccione una opción
-              </option>
               <option value="Baja">Baja</option>
               <option value="Media">Media</option>
               <option value="Intensa">Intensa</option>
@@ -83,9 +79,6 @@
               name="objetivo_usuario"
               required
             >
-              <option value="Seleccione una opción" selected>
-                Seleccione una opción
-              </option>
               <option value="Bajar de peso">Bajar de peso</option>
               <option value="Mantener peso">Mantener peso</option>
               <option value="Aumentar masa corporal">
@@ -98,7 +91,9 @@
               type="number"
               id="estatura"
               name="estatura"
-              step="0.10" min="0.1" max="3"
+              step="0.01"
+              min="0.15"
+              max="3"
               required
             />
             <label for="peso">Peso (Kg)</label>
@@ -107,6 +102,9 @@
               type="number"
               id="peso"
               name="peso"
+              step="0.1"
+              min="1.0"
+              max="600"
               required
             />
             <label for="genero">Genero</label>
@@ -117,9 +115,6 @@
               name="genero"
               required
             >
-              <option value="Seleccione una opción" selected>
-                Seleccione una opción
-              </option>
               <option value="Masculino">Masculino</option>
               <option value="Femenino">Femenino</option>
               <option value="Prefiero no decirlo">Prefiero no decirlo</option>
@@ -132,7 +127,6 @@
               name="plan_id"
               required
             >
-              <option value="0" selected>Seleccione una opción</option>
               <option value="1">Básico</option>
               <option value="2">Intermedio</option>
               <option value="3">Avanzado</option>
@@ -153,7 +147,7 @@
 import axios from "axios";
 export default {
   name: "Registro",
-  emits: ["completedSignUp"],
+  emits: ["completedLogIn", "completedSignUp", "logOut"],
   data: function () {
     return {
       user: {
@@ -165,8 +159,8 @@ export default {
         fecha_nacimiento: "",
         frequencia_fisica: "",
         objetivo_usuario: "",
-        estatura: 0,
-        peso: 0,
+        estatura: 1,
+        peso: 1,
         genero: "",
         plan_id: 0,
       },
@@ -174,12 +168,12 @@ export default {
   },
 
   methods: {
-    showAlertErrorCredencial() {
+    showAlertErrorUsuarioExistente() {
       // Use sweetalert2
       this.$swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Error al llenar el formulario",
+        text: "El usuario ingresado ya existe.",
         background: "rgb(255, 254, 254)",
         confirmButtonColor: "#04b579",
       });
@@ -198,8 +192,14 @@ export default {
           this.$emit("completedSignUp", dataSignUp);
         })
         .catch((error) => {
-          console.log(error);
-          this.showAlertErrorCredencial()
+          if (
+            error.response.data.username[0] ===
+            "user with this Username already exists."
+          ) {
+            this.showAlertErrorUsuarioExistente();
+          } else {
+            alert(error);
+          }
         });
     },
   },
@@ -211,7 +211,9 @@ export default {
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap");
-
+input {
+  box-sizing: border-box;
+}
 .main {
   margin-top: 150px;
 }
@@ -230,6 +232,7 @@ export default {
 
 .container-form {
   display: flex;
+  justify-content: space-around;
 }
 
 .personal-data {
@@ -258,8 +261,9 @@ select:focus {
   width: 100%;
   height: 30px;
   font-size: 12px;
-  margin: 0.5rem;
+  margin: 0.5rem 0 0.5rem 0;
   margin-bottom: 20px;
+  padding: 0 1rem;
 }
 
 .registro select {
@@ -269,8 +273,9 @@ select:focus {
   width: 100%;
   height: 30px;
   font-size: 12px;
-  margin: 0.5rem;
+  margin: 0.5rem 0 0.5rem 0;
   margin-bottom: 20px;
+  padding: 0 1rem;
 }
 
 h2 {

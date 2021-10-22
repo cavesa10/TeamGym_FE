@@ -17,7 +17,7 @@
     <div class="lista-resproduccion">
       <h2 class="ctitle">Plan {{ namePlan }}</h2>
       <ul class="episodios">
-        <li v-for="video in videos" :key="video.video_url" @click="playVid(video.video_url)" >
+        <li v-for="video in videos" :key="video.video_url" @click="playVid(video.video_url)" v-bind:class="{'selected': idVideoFirst === video.video_url}" >
           <h3 class="etitle">{{video.video_nombre}}</h3>
           <span class="eduration"> 1:06 minutos</span>
         </li>
@@ -116,6 +116,9 @@ export default {
 </script>
 
 <style scoped>
+.selected{
+  border: 1px solid #04b579 !important;
+}
 .container-videos-planes {
   display: flex;
   margin: 150px 10% 150px 10%;
@@ -156,7 +159,6 @@ export default {
 
 .ctitle {
   margin: 20px 0 30px 0;
-  cursor: pointer;
   font-size: 25px;
   color: #555;
   font-weight: 400;
@@ -174,6 +176,7 @@ export default {
   margin-bottom: 40px;
 }
 ul.episodios li {
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;

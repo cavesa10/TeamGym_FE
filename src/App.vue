@@ -94,10 +94,6 @@ export default {
         text: "Presione Ok para continuar",
         background: "rgb(255, 254, 254)",
         confirmButtonColor: "#04b579",
-        inputValidator: () => {
-            this.$router.push({ name: "Perfil" });
-
-        },
       });
     },
   },

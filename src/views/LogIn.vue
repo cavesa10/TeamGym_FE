@@ -84,12 +84,12 @@ export default {
         })
         .catch((error) => {
           if (
-            (error.response.data.detail =
+            (error.response.data.detail ===
               "No active account found with the given credentials")
           ) {
             this.showAlertErrorCredencial();
           } else {
-            this.showAlertErrorServidor();
+            alert(error)
           }
         });
     },
