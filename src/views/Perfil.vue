@@ -114,9 +114,6 @@ export default {
           this.imcs = result.data.imc;
           this.imc = this.ultimoImc(result.data.imc)
           this.loaded = true;
-          console.log(result.status);
-          console.log(result);
-          console.log();
         })
         .catch(() => {
           this.$emit("logOut");

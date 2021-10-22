@@ -1,10 +1,10 @@
 <template>
   <div class="main">
-    <div class="registro" autocomplete="on">
+    <div class="registro" >
       <br />
       <h1>REGISTRESE</h1>
       <br />
-      <form v-on:submit.prevent="processSignUp" action="./login.html">
+      <form v-on:submit.prevent="processSignUp" autocomplete="off">
         <div class="container-form">
           <div class="personal-data">
             <label for="username">Usuario</label>
@@ -13,6 +13,7 @@
               type="text"
               id="username"
               name="username"
+              autocomplete="nope"
               required
             />
             <label for="password">Contraseña</label>
@@ -21,6 +22,7 @@
               type="password"
               id="password"
               name="password"
+              autocomplete="new-password"
               required
             />
             <label for="email">Correo</label>
@@ -50,7 +52,7 @@
             <label for="fecha_nacimiento">Fecha de Nacimiento</label>
             <input
               v-model="user.fecha_nacimiento"
-              type="date"
+              type="text"
               id="fecha_nacimiento"
               name="fecha_nacimiento"
               required
@@ -73,7 +75,7 @@
               <option value="Media">Media</option>
               <option value="Intensa">Intensa</option>
             </select>
-            <label for="objetivo_usuarioU">objetivo_usuario</label>
+            <label for="objetivo_usuario">Tu objetivo</label>
             <select
               v-model="user.objetivo_usuario"
               class="select-registro"
@@ -164,7 +166,7 @@ export default {
         estatura: 0,
         peso: 0,
         genero: "",
-        plan_id: "",
+        plan_id: 0,
       },
     };
   },

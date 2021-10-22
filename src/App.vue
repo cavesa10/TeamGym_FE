@@ -28,7 +28,10 @@
             >
           </li>
           <li>
-            <router-link v-if="is_auth" to="/Perfil">Mi Plan</router-link>
+            <router-link v-if="is_auth" to="/Perfil">Mi Perfil</router-link>
+          </li>
+          <li>
+            <router-link v-if="is_auth" to="/PlanesPerfil">Mi Plan</router-link>
           </li>
           <li>
             <router-link v-if="is_auth" v-on:click="logOut" to="/">Cerrar Sesión</router-link>
@@ -41,6 +44,7 @@
     <router-view
       v-on:completedLogIn="completedLogIn"
       v-on:completedSignUp="completedSignUp"
+      v-on:logOut="logOut"
     ></router-view>
   </div>
 </template>
@@ -81,7 +85,9 @@ export default {
       this.verifyAuth();
 
     },
-    completedSignUp: function (data) {},
+    completedSignUp: function (data) {
+      this.completedLogIn(data);
+    },
   },
   created: function () {
     this.verifyAuth();

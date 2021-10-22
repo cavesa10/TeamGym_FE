@@ -113,6 +113,7 @@ export default {
 <style scoped>
 .container-videos-planes {
   display: flex;
+  margin: 150px 10% 0 10%;
 }
 .lista-resproduccion {
   width: 25%;
