@@ -4,18 +4,18 @@
       <a href="#" class="logo"
         ><img src="../src/assets/image/Team_Green.png" alt="Logo TeamGym"
       /></a>
-      <nav class="nav">
+      <nav class="nav" >
         <ul>
           <li>
-            <router-link v-if="!is_auth" to="/" id="words">Inicio</router-link>
+            <router-link v-if="!is_auth" to="/" id="words"  @click="scrollInto('Inicio')" >Inicio</router-link>
           </li>
           <li>
-            <router-link v-if="!is_auth" to="/" id="words"
+            <router-link v-if="!is_auth" to="/" id="words"  @click="scrollInto('Funcionalidades')"
               >Funcionalidades</router-link
             >
           </li>
           <li>
-            <router-link v-if="!is_auth" to="/" id="words">Planes</router-link>
+            <router-link v-if="!is_auth" to="/" id="words" @click="scrollInto('Planes')" >Planes</router-link>
           </li>
           <li>
             <router-link v-if="!is_auth" to="/Registro"
@@ -95,6 +95,10 @@ export default {
         background: "rgb(255, 254, 254)",
         confirmButtonColor: "#04b579",
       });
+    },
+    scrollInto(elementId){
+    const section = document.querySelector(`#${elementId}`);
+    section.scrollIntoView({behavior: 'smooth'});
     },
   },
   created: function () {

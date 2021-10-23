@@ -1,5 +1,5 @@
 <template>
-  <section class="main">
+  <section class="main" id="Planes" >
     <h1>NUESTROS PLANES</h1>
     <h2 id="subTitle">Conoce nuestros planes para cumplir tus objetivos</h2>
     <div class="contenedor-NP">
@@ -28,7 +28,7 @@
   align-content: center;
   align-items: center;
   justify-content: center;
-  margin-top: 170px;
+  padding-top: 170px;
 }
 .contenedor-NP {
   display: flex;
