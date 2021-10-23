@@ -7,26 +7,61 @@
           <div class="username-basic">
             <h2 class="letra">Usuario</h2>
             <span>{{ username }}</span>
+
             <h2 class="letra">Correo</h2>
-            <span>{{ email }}</span>
+            <label class="input">
+              <input v-model="email" class="input_field" placeholder=" " />
+              <!-- <span class="input__label">Correo</span> -->
+              <ButtonEditSVG/>
+            </label>
+            
             <h2 class="letra">Nombres</h2>
             <label class="input">
-              <input v-model="name" class="input__field" type="password" placeholder=" " />
+              <input v-model="name" class="input__field" placeholder=" " />
               <span class="input__label">Nombre</span>
               <ButtonEditSVG/>
             </label>
+
             <h2 class="letra">Apellidos</h2>
-            <span>{{ last_name }}</span>
+            <label class="input">
+              <input v-model="last_name" class="input_field" placeholder=" " />
+              <!-- <span class="input__label">Correo</span> -->
+              <ButtonEditSVG/>
+            </label>
           </div>
           <div class="username-basic">
             <h2 class="letra">Frecuencia Física</h2>
-            <span>{{ frequencia_fisica }}</span>
+            <label class="input">
+              <input v-model="frequencia_fisica" class="input_field" placeholder=" " />
+              <!-- <span class="input__label">Correo</span> -->
+              <ButtonEditSVG/>
+            </label>
+
             <h2 class="letra">Objetivo</h2>
-            <span>{{ objetivo_usuario }}</span>
+            <label class="input">
+              <select v-model="objetivo_usuario" class="input_field" placeholder=" ">
+                <option :value="objetivo_usuario">{{objetivo_usuario}}</option>
+                <option :value="objetivo_usuario">{{objetivo_usuario}}</option>
+                <option :value="objetivo_usuario">{{objetivo_usuario}}</option>
+              </select>
+              <!-- <span class="input__label">Correo</span> -->
+              <ButtonEditSVG/>
+            </label>
+
             <h2 class="letra">Genero</h2>
-            <span>{{ genero }}</span>
+            <label class="input">
+              <input v-model="genero" class="input_field" placeholder=" " />
+              <!-- <span class="input__label">Correo</span> -->
+              <ButtonEditSVG/>
+            </label>
+
             <h2 class="letra">Plan</h2>
-            <span>{{ plan_id }}</span>
+            <label class="input">
+              <input v-model="plan_id" class="input_field" placeholder=" " />
+              <!-- <span class="input__label">Correo</span> -->
+              <ButtonEditSVG/>
+            </label>
+
           </div>
         </div>
         <h2 id="informe">Informe plan</h2>
@@ -312,5 +347,18 @@ span {
   transform: translate(0.25rem, -65%) scale(0.8);
   color: var(--color-accent);
 }
+label
+{
+  background-color: none;
+  border: 0;
+
+}
+input
+{
+  background-color: rgb(38, 40, 41);
+  color: #69fe13;
+  border: 0;
+}
+
 
 </style>
