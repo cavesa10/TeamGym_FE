@@ -31,17 +31,17 @@ export default {
     opacity: 0;
   }
 }
-.ldio-9dk1cof0qt div {
-  left: 94px;
-  top: 48px;
-  position: absolute;
-  animation: ldio-9dk1cof0qt linear 1s infinite;
-  background: #69fe13;
-  width: 12px;
-  height: 24px;
-  border-radius: 6px / 12px;
-  transform-origin: 6px 52px;
-}
+  .ldio-9dk1cof0qt div {
+    left: 94px;
+    top: 48px;
+    position: absolute;
+    animation: ldio-9dk1cof0qt linear 1s infinite;
+    background: #69fe13;
+    width: 12px;
+    height: 24px;
+    border-radius: 6px / 12px;
+    transform-origin: 6px 52px;
+  }
 .ldio-9dk1cof0qt div:nth-child(1) {
   transform: rotate(0deg);
   animation-delay: -0.9166666666666666s;
@@ -107,7 +107,7 @@ export default {
   height: 200px;
   display: inline-block;
   overflow: hidden;
-  background: var(--fondo-black-principal);
+  background: transparent;
 }
 .ldio-9dk1cof0qt {
   width: 100%;

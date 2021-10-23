@@ -117,7 +117,6 @@ export default {
           this.imcs = result.data.imc;
           this.imc = this.ultimoImc(result.data.imc);
           this.loaded = true;
-          console.log(result.data.fecha_nacimiento)
         })
         .catch(() => {
           localStorage.clear();

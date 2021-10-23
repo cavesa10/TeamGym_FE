@@ -97,8 +97,11 @@ export default {
       });
     },
     scrollInto(elementId){
-    const section = document.querySelector(`#${elementId}`);
-    section.scrollIntoView({behavior: 'smooth'});
+      setTimeout(() => {
+        const element = document.getElementById(elementId);
+        element.scrollIntoView({behavior: "smooth"});
+      }, 100);
+
     },
   },
   created: function () {
