@@ -10,7 +10,11 @@
             <h2 class="letra">Correo</h2>
             <span>{{ email }}</span>
             <h2 class="letra">Nombres</h2>
-            <span>{{ name }}</span>
+            <label class="input">
+              <input v-model="name" class="input__field" type="password" placeholder=" " />
+              <span class="input__label">Nombre</span>
+              <ButtonEditSVG/>
+            </label>
             <h2 class="letra">Apellidos</h2>
             <span>{{ last_name }}</span>
           </div>
@@ -60,11 +64,14 @@
 import jwt_decode from "jwt-decode";
 import axios from "axios";
 import Loading from "./../components/Loading.vue";
+import ButtonEditSVG from "./../components/ButtonEditSVG.vue";
+
 export default {
   name: "Account",
   emits: ["completedLogIn", "completedSignUp", "logOut"],
   components: {
     Loading,
+    ButtonEditSVG,
   },
   data: function () {
     return {
@@ -264,4 +271,46 @@ span {
   width: 200px;
   height: 200px;
 }
+.input {
+  position: relative;
+}
+.input__label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: calc(var(--size-bezel) * 0.75) calc(var(--size-bezel) * .5);
+  margin: calc(var(--size-bezel) * 0.75 + 3px) calc(var(--size-bezel) * .5);
+  background: pink;
+  white-space: nowrap;
+  transform: translate(0, 0);
+  transform-origin: 0 0;
+  background: var(--color-background);
+  transition: transform 120ms ease-in;
+  font-weight: bold;
+  line-height: 1.2;
+}
+.input__field {
+  cursor: text;
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  border: 3px solid currentColor;
+  padding: calc(var(--size-bezel) * 1.5) var(--size-bezel);
+  color: currentColor;
+  background: transparent;
+  border-radius: var(--size-radius);
+}
+.input__field:not(:-moz-placeholder-shown) + .input__label {
+  transform: translate(0.25rem, -65%) scale(0.8);
+  color: var(--color-accent);
+}
+.input__field:not(:-ms-input-placeholder) + .input__label {
+  transform: translate(0.25rem, -65%) scale(0.8);
+  color: var(--color-accent);
+}
+.input__field:focus + .input__label, .input__field:not(:placeholder-shown) + .input__label {
+  transform: translate(0.25rem, -65%) scale(0.8);
+  color: var(--color-accent);
+}
+
 </style>
