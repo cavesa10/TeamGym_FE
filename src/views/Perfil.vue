@@ -7,61 +7,22 @@
           <div class="username-basic">
             <h2 class="letra">Usuario</h2>
             <span>{{ username }}</span>
-
             <h2 class="letra">Correo</h2>
-            <label class="input">
-              <input v-model="email" class="input_field" placeholder=" " />
-              <!-- <span class="input__label">Correo</span> -->
-              <ButtonEditSVG/>
-            </label>
-            
+            <span>{{ email }}</span>
             <h2 class="letra">Nombres</h2>
-            <label class="input">
-              <input v-model="name" class="input__field" placeholder=" " />
-              <span class="input__label">Nombre</span>
-              <ButtonEditSVG/>
-            </label>
-
+            <span>{{ name }}</span>
             <h2 class="letra">Apellidos</h2>
-            <label class="input">
-              <input v-model="last_name" class="input_field" placeholder=" " />
-              <!-- <span class="input__label">Correo</span> -->
-              <ButtonEditSVG/>
-            </label>
+            <span>{{ last_name }}</span>
           </div>
           <div class="username-basic">
             <h2 class="letra">Frecuencia Física</h2>
-            <label class="input">
-              <input v-model="frequencia_fisica" class="input_field" placeholder=" " />
-              <!-- <span class="input__label">Correo</span> -->
-              <ButtonEditSVG/>
-            </label>
-
+            <span>{{ frequencia_fisica }}</span>
             <h2 class="letra">Objetivo</h2>
-            <label class="input">
-              <select v-model="objetivo_usuario" class="input_field" placeholder=" ">
-                <option :value="objetivo_usuario">{{objetivo_usuario}}</option>
-                <option :value="objetivo_usuario">{{objetivo_usuario}}</option>
-                <option :value="objetivo_usuario">{{objetivo_usuario}}</option>
-              </select>
-              <!-- <span class="input__label">Correo</span> -->
-              <ButtonEditSVG/>
-            </label>
-
+            <span>{{ objetivo_usuario }}</span>
             <h2 class="letra">Genero</h2>
-            <label class="input">
-              <input v-model="genero" class="input_field" placeholder=" " />
-              <!-- <span class="input__label">Correo</span> -->
-              <ButtonEditSVG/>
-            </label>
-
+            <span>{{ genero }}</span>
             <h2 class="letra">Plan</h2>
-            <label class="input">
-              <input v-model="plan_id" class="input_field" placeholder=" " />
-              <!-- <span class="input__label">Correo</span> -->
-              <ButtonEditSVG/>
-            </label>
-
+            <span>{{ plan_id }}</span>
           </div>
         </div>
         <h2 id="informe">Informe plan</h2>
@@ -99,14 +60,11 @@
 import jwt_decode from "jwt-decode";
 import axios from "axios";
 import Loading from "./../components/Loading.vue";
-import ButtonEditSVG from "./../components/ButtonEditSVG.vue";
-
 export default {
   name: "Account",
   emits: ["completedLogIn", "completedSignUp", "logOut"],
   components: {
     Loading,
-    ButtonEditSVG,
   },
   data: function () {
     return {
@@ -306,59 +264,4 @@ span {
   width: 200px;
   height: 200px;
 }
-.input {
-  position: relative;
-}
-.input__label {
-  position: absolute;
-  left: 0;
-  top: 0;
-  padding: calc(var(--size-bezel) * 0.75) calc(var(--size-bezel) * .5);
-  margin: calc(var(--size-bezel) * 0.75 + 3px) calc(var(--size-bezel) * .5);
-  background: pink;
-  white-space: nowrap;
-  transform: translate(0, 0);
-  transform-origin: 0 0;
-  background: var(--color-background);
-  transition: transform 120ms ease-in;
-  font-weight: bold;
-  line-height: 1.2;
-}
-.input__field {
-  cursor: text;
-  box-sizing: border-box;
-  display: block;
-  width: 100%;
-  border: 3px solid currentColor;
-  padding: calc(var(--size-bezel) * 1.5) var(--size-bezel);
-  color: currentColor;
-  background: transparent;
-  border-radius: var(--size-radius);
-}
-.input__field:not(:-moz-placeholder-shown) + .input__label {
-  transform: translate(0.25rem, -65%) scale(0.8);
-  color: var(--color-accent);
-}
-.input__field:not(:-ms-input-placeholder) + .input__label {
-  transform: translate(0.25rem, -65%) scale(0.8);
-  color: var(--color-accent);
-}
-.input__field:focus + .input__label, .input__field:not(:placeholder-shown) + .input__label {
-  transform: translate(0.25rem, -65%) scale(0.8);
-  color: var(--color-accent);
-}
-label
-{
-  background-color: none;
-  border: 0;
-
-}
-input
-{
-  background-color: rgb(38, 40, 41);
-  color: #69fe13;
-  border: 0;
-}
-
-
 </style>
