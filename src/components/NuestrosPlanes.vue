@@ -4,17 +4,17 @@
     <h2 id="subTitle">Conoce nuestros planes para cumplir tus objetivos</h2>
     <div class="contenedor-NP">
       <div class="contenedores-NP">
-        <h2 class="words">BAJAR DE PESO</h2>
+        <h2 class="words">BÁSICO</h2>
         <img src="../assets/image/service_2.png" alt="Bajar de peso" />
       </div>
 
       <div class="contenedores-NP">
-        <h2 class="words">ESTAR EN FORMA</h2>
+        <h2 class="words">INTERMEDIO</h2>
         <img src="../assets/image/service_1.png" alt="estar en forma" />
       </div>
 
       <div class="contenedores-NP">
-        <h2 class="words">GANAR MUSCULO</h2>
+        <h2 class="words">AVANZADO</h2>
         <img src="../assets/image/service_3.png" alt="Ganar musculo" />
       </div>
     </div>
