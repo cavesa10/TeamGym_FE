@@ -1,0 +1,630 @@
+<template>
+  <section class="containers">
+    <div v-if="loaded" class="container-perfil">
+      <form
+        class="container-perfil-form"
+        autocomplete="off"
+        v-on:submit.prevent="updateData"
+      >
+        <h2 class="letra">
+          <span class="data-text">{{ username }},</span> edita tu perfil
+        </h2>
+        <br />
+        <br />
+        <br />
+        <div class="username">
+          <div class="username-basic">
+            <div class="container_full">
+              <div class="container_label_input">
+                <label class="letra" for="Nombres">Nombres</label>
+                <div class="container_input">
+                  <input
+                    type="text"
+                    id="Nombres"
+                    v-model="user.name"
+                    class="input_field"
+                    required
+                  />
+                  <span class="focus-border"></span>
+                </div>
+              </div>
+              <div class="container_label_input">
+                <label class="letra" for="Apellidos"> Apellidos</label>
+                <div class="container_input">
+                  <input
+                    type="text"
+                    id="Apellidos"
+                    v-model="user.last_name"
+                    class="input_field"
+                    required
+                  />
+                  <span class="focus-border"></span>
+                </div>
+              </div>
+            </div>
+            <div class="container_full">
+              <div class="container_label_input">
+                <label class="letra" for="Correo"> Correo Electrónico</label>
+                <div class="container_input email">
+                  <input
+                    type="email"
+                    id="Correo"
+                    v-model="user.email"
+                    class="input_field"
+                    required
+                  />
+                  <span class="focus-border"></span>
+                </div>
+              </div>
+
+              <div class="container_label_input">
+                <label class="letra" for="Plan"> Plan</label>
+                <div class="container_input">
+                  <select
+                    id="Plan"
+                    v-model="plan_name"
+                    class="input_field"
+                    required
+                  >
+                    <option value="Básico">Básico</option>
+                    <option value="Intermedio">Intermedio</option>
+                    <option value="Avanzado">Avanzado</option>
+                  </select>
+                  <span class="focus-border"></span>
+                </div>
+              </div>
+            </div>
+            <div class="container_full">
+              <div class="container_label_input">
+                <label class="letra" for="Genero"> Genero</label>
+                <div class="container_input">
+                  <select
+                    id="Genero"
+                    v-model="user.genero"
+                    class="input_field"
+                    required
+                  >
+                    <option value="Femenino">Femenino</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Prefiero no decirlo">
+                      Prefiero no decirlo
+                    </option>
+                  </select>
+                  <span class="focus-border"></span>
+                </div>
+              </div>
+
+              <div class="container_label_input">
+                <label class="letra" for="Fecha_Nacimiento">
+                  Fecha Nacimiento</label
+                >
+                <div class="container_input">
+                  <input
+                    type="date"
+                    :max="hoy"
+                    id="Fecha_Nacimiento"
+                    v-model="user.fecha_nacimiento"
+                    class="input_field"
+                    required
+                  />
+                  <span class="focus-border"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="container_full">
+              <div class="container_label_input">
+                <label class="letra" for="Frecuencia_física">
+                  Frecuencia Física</label
+                >
+                <div class="container_input">
+                  <select
+                    id="Frecuencia_física"
+                    v-model="user.frequencia_fisica"
+                    class="input_field"
+                    required
+                  >
+                    <option value="Baja">Baja</option>
+                    <option value="Media">Media</option>
+                    <option value="Intensa">Intensa</option>
+                  </select>
+                  <span class="focus-border"></span>
+                </div>
+              </div>
+
+              <div class="container_label_input">
+                <label class="letra" for="Objetivo_Usuario"> Objetivo</label>
+                <div class="container_input">
+                  <select
+                    id="Objetivo_Usuario"
+                    v-model="user.objetivo_usuario"
+                    class="input_field"
+                    required
+                  >
+                    <option value="Bajar de peso">Bajar de peso</option>
+                    <option value="Mantener peso">Mantener peso</option>
+                    <option value="Aumentar masa muscular">
+                      Aumentar masa muscular
+                    </option>
+                  </select>
+                  <span class="focus-border"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="container_full">
+              <div class="container_label_input">
+                <label class="letra" for="Estatura">Estatura (Metros)</label>
+                <div class="container_input">
+                  <input
+                    type="number"
+                    id="Estatura"
+                    v-model="user.estatura"
+                    step="0.01"
+                    min="0.15"
+                    max="3"
+                    required
+                    class="input_field"
+                  />
+                  <span class="focus-border"></span>
+                </div>
+              </div>
+              <div class="container_label_input">
+                <label class="letra" for="Peso">Peso (KG)</label>
+                <div class="container_input">
+                  <input
+                    type="number"
+                    id="Peso"
+                    step="0.1"
+                    min="1.0"
+                    max="600"
+                    required
+                    v-model="user.peso"
+                    class="input_field"
+                  />
+                  <span class="focus-border"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="container-button">
+          <button class="button-registro" type="submit">Guardar</button>
+          <span class="loading" v-if="loading">
+            <div class="loadingio-spinner-spinner-nwl5j7qfhjl">
+              <div class="ldio-qdyn8sbo9s">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </div>
+          </span>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+  <section v-if="!loaded" class="container-load">
+    <div>
+      <Loading></Loading>
+    </div>
+  </section>
+</template>
+
+<script>
+import jwt_decode from "jwt-decode";
+import axios from "axios";
+import Loading from "./../components/Loading.vue";
+export default {
+  name: "EditPerfil",
+  emits: ["completedLogIn", "completedSignUp", "logOut"],
+  components: {
+    Loading,
+  },
+  data: function () {
+    return {
+      user: {
+        username: "",
+        password: "contraseña",
+        email: "",
+        name: "",
+        last_name: "",
+        fecha_nacimiento: "",
+        frequencia_fisica: "",
+        objetivo_usuario: "",
+        estatura: 0,
+        peso: 0,
+        genero: "",
+        plan_id: 0,
+      },
+      plan_name: "",
+      hoy: new Date().toISOString().split("T")[0],
+      username: "",
+      loaded: false,
+
+      loading: false,
+    };
+  },
+  methods: {
+    getData: async function () {
+      if (
+        localStorage.getItem("token_access") === null ||
+        localStorage.getItem("token_refresh") === null
+      ) {
+        localStorage.clear();
+        this.$router.push({ name: "Home" });
+        return;
+      }
+      await this.verifyToken();
+      let token = localStorage.getItem("token_access");
+      let userId = jwt_decode(token).user_id.toString();
+
+      axios
+        .get(`https://teamgym-be.herokuapp.com/user/${userId}/`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((result) => {
+          this.user.username = result.data.username;
+          this.user.password = "contraseña";
+          this.user.email = result.data.email;
+          this.user.name = result.data.name;
+          this.user.last_name = result.data.last_name;
+          this.user.fecha_nacimiento = result.data.fecha_nacimiento;
+          this.user.frequencia_fisica = result.data.frequencia_fisica;
+          this.user.objetivo_usuario = result.data.objetivo_usuario;
+          this.user.estatura = result.data.estatura;
+          this.user.peso = result.data.peso;
+          this.user.genero = result.data.genero;
+          this.user.plan_id = this.planConvertir(result.data.plan_id);
+
+          this.plan_name = result.data.plan_id;
+          this.username = result.data.username;
+          this.loaded = true;
+        })
+        .catch(() => {
+          localStorage.clear();
+          this.$router.push({ name: "Home" });
+          return;
+        });
+    },
+    updateData: async function () {
+      this.loading = true;
+      if (
+        localStorage.getItem("token_access") === null ||
+        localStorage.getItem("token_refresh") === null
+      ) {
+        localStorage.clear();
+        this.$router.push({ name: "Home" });
+        return;
+      }
+      await this.verifyToken();
+      let token = localStorage.getItem("token_access");
+      let userId = jwt_decode(token).user_id.toString();
+
+      axios
+        .put(`https://teamgym-be.herokuapp.com/user/${userId}/`, this.user, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((result) => {
+          this.user.username = result.data.username;
+          this.user.password = "contraseña";
+          this.user.email = result.data.email;
+          this.user.name = result.data.name;
+          this.user.last_name = result.data.last_name;
+          this.user.fecha_nacimiento = result.data.fecha_nacimiento;
+          this.user.frequencia_fisica = result.data.frequencia_fisica;
+          this.user.objetivo_usuario = result.data.objetivo_usuario;
+          this.user.estatura = result.data.estatura;
+          this.user.peso = result.data.peso;
+          this.user.genero = result.data.genero;
+          this.user.plan_id = this.planConvertir(result.data.plan_id);
+
+          this.plan_name = result.data.plan_id;
+          this.username = result.data.username;
+          this.loading = false;
+          this.showAlertExito()
+        })
+        .catch((error) => {
+          console.log(error);
+          localStorage.clear();
+          this.$router.push({ name: "Home" });
+          return;
+        });
+    },
+    verifyToken: function () {
+      return axios
+        .post(
+          "https://teamgym-be.herokuapp.com/refresh/",
+          { refresh: localStorage.getItem("token_refresh") },
+          { headers: {} }
+        )
+        .then((result) => {
+          localStorage.setItem("token_access", result.data.access);
+        })
+        .catch(() => {
+          localStorage.clear();
+          this.$router.push({ name: "Home" });
+          return;
+        });
+    },
+    planConvertir: function (plan) {
+      if (plan === "Básico") {
+        return 1;
+      } else if (plan === "Intermedio") {
+        return 2;
+      } else if (plan === "Avanzado") {
+        return 3;
+      }
+    },
+    showAlertExito() {
+      // Use sweetalert2
+      this.$swal.fire({
+        icon: "success",
+        title: "Datos actualizados",
+        text: "Presione Ok para continuar",
+        background: "rgb(255, 254, 254)",
+        confirmButtonColor: "#04b579",
+      });
+    },
+  },
+  created: async function () {
+    this.getData();
+  },
+};
+</script>
+
+<style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+.containers {
+  margin: 150px 9% 0 9%;
+}
+.container-load {
+  height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container-perfil-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.screen-1 {
+  background-color: rgb(38, 40, 41);
+  width: 56%;
+  flex-direction: column;
+}
+.username {
+  width: 100%;
+  height: auto;
+  background-color: rgb(38, 40, 41);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.username-basic {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  align-items: flex-start;
+}
+.letra {
+  font-family: "Open Sans", sans-serif;
+  color: rgb(255, 255, 255);
+  font-size: 20px;
+}
+
+.img-profile-man {
+  width: 150px;
+  height: 150px;
+}
+#img-2 {
+  width: 200px;
+  height: 200px;
+}
+
+.data-text {
+  text-transform: capitalize;
+  color: rgb(68, 190, 11);
+}
+
+.container_full {
+  display: flex;
+}
+.container_label_input {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: start;
+  margin: 0 20px 20px 0;
+}
+.container_input {
+  float: left;
+  width: 280px;
+  margin: 8px 0;
+  position: relative;
+}
+.input_field {
+  width: 100%;
+  height: 40px;
+  border: none;
+  border-bottom: 1px solid rgb(68, 212, 68);
+  background-color: transparent;
+  outline: none;
+  font-size: 16px;
+  color: rgb(68, 190, 11);
+  font-family: "Open Sans", sans-serif;
+  padding: 0;
+}
+input[type="text"],
+input[type="date"],
+input[type="email"],
+input[type="number"],
+select {
+  color: rgb(68, 190, 11);
+  width: 100%;
+  box-sizing: border-box;
+  letter-spacing: 1px;
+}
+
+input[type="date"] {
+  padding: 5.2px;
+}
+
+:focus {
+  outline: none;
+}
+.input_field {
+  border: 0;
+  padding: 7px;
+  border-bottom: 1px solid #ccc;
+}
+.input_field ~ .focus-border {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  z-index: 99;
+}
+.input_field ~ .focus-border:before,
+.input_field ~ .focus-border:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background-color: #4caf50;
+  transition: 0.4s;
+}
+.input_field ~ .focus-border:after {
+  left: auto;
+  right: 0;
+}
+.input_field:focus ~ .focus-border:before,
+.input_field:focus ~ .focus-border:after {
+  width: 50%;
+  transition: 0.4s;
+}
+.button-registro {
+  background-color: #04b579;
+  color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  border-radius: 50px;
+  border-style: none;
+  width: 10%;
+  height: 50px;
+}
+.button-registro:hover {
+  cursor: pointer;
+  background-color: #29c08e;
+}
+
+.container-button{
+  width: 100%;
+}
+
+/* loading spiner */
+
+@keyframes ldio-qdyn8sbo9s {
+  0% { opacity: 1 }
+  100% { opacity: 0 }
+}
+.loading{
+  position: absolute;
+}
+.ldio-qdyn8sbo9s div {
+  left: 50px;
+  top: 4px;
+  position: absolute;
+  animation: ldio-qdyn8sbo9s linear 1s infinite;
+  background: #69fe13;
+  width: 6px;
+  height: 12px;
+  border-radius: 3px / 6px;
+  transform-origin: 3px 26px;
+}.ldio-qdyn8sbo9s div:nth-child(1) {
+  transform: rotate(0deg);
+  animation-delay: -0.9166666666666666s;
+  background: #69fe13;
+}.ldio-qdyn8sbo9s div:nth-child(2) {
+  transform: rotate(30deg);
+  animation-delay: -0.8333333333333334s;
+  background: #69fe13;
+}.ldio-qdyn8sbo9s div:nth-child(3) {
+  transform: rotate(60deg);
+  animation-delay: -0.75s;
+  background: #69fe13;
+}.ldio-qdyn8sbo9s div:nth-child(4) {
+  transform: rotate(90deg);
+  animation-delay: -0.6666666666666666s;
+  background: #69fe13;
+}.ldio-qdyn8sbo9s div:nth-child(5) {
+  transform: rotate(120deg);
+  animation-delay: -0.5833333333333334s;
+  background: #69fe13;
+}.ldio-qdyn8sbo9s div:nth-child(6) {
+  transform: rotate(150deg);
+  animation-delay: -0.5s;
+  background: #69fe13;
+}.ldio-qdyn8sbo9s div:nth-child(7) {
+  transform: rotate(180deg);
+  animation-delay: -0.4166666666666667s;
+  background: #69fe13;
+}.ldio-qdyn8sbo9s div:nth-child(8) {
+  transform: rotate(210deg);
+  animation-delay: -0.3333333333333333s;
+  background: #69fe13;
+}.ldio-qdyn8sbo9s div:nth-child(9) {
+  transform: rotate(240deg);
+  animation-delay: -0.25s;
+  background: #69fe13;
+}.ldio-qdyn8sbo9s div:nth-child(10) {
+  transform: rotate(270deg);
+  animation-delay: -0.16666666666666666s;
+  background: #69fe13;
+}.ldio-qdyn8sbo9s div:nth-child(11) {
+  transform: rotate(300deg);
+  animation-delay: -0.08333333333333333s;
+  background: #69fe13;
+}.ldio-qdyn8sbo9s div:nth-child(12) {
+  transform: rotate(330deg);
+  animation-delay: 0s;
+  background: #69fe13;
+}
+.loadingio-spinner-spinner-nwl5j7qfhjl {
+  width: 84px;
+  height: 84px;
+  display: inline-block;
+  overflow: hidden;
+  background: transparent;
+}
+.ldio-qdyn8sbo9s {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform: translateZ(0) scale(0.84);
+  backface-visibility: hidden;
+  transform-origin: 0 0; /* see note above */
+}
+.ldio-qdyn8sbo9s div { box-sizing: content-box; }
+/* generated by https://loading.io/ */
+</style>

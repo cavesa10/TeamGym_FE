@@ -61,7 +61,7 @@ import jwt_decode from "jwt-decode";
 import axios from "axios";
 import Loading from "./../components/Loading.vue";
 export default {
-  name: "Account",
+  name: "Perfil",
   emits: ["completedLogIn", "completedSignUp", "logOut"],
   components: {
     Loading,

@@ -4,6 +4,7 @@ import LogIn from '../views/LogIn.vue'
 import Registro from '../views/Registro.vue'
 import Perfil from '../views/Perfil.vue'
 import PlanesPerfil from '../views/PlanesPerfil.vue'
+import EditPerfil from '../views/EditPerfil.vue'
 
 const routes = [{
         path: '/',
@@ -27,9 +28,14 @@ const routes = [{
         component: Perfil
     },
     {
-        path: '/PlanesPerfil',
+        path: '/Perfil/MiPlan',
         name: 'PlanesPerfil',
         component: PlanesPerfil
+    },
+    {
+        path: '/Perfil/Editar',
+        name: 'EditPerfil',
+        component: EditPerfil
     }
 ]
 
