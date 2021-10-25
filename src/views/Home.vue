@@ -6,7 +6,7 @@
     <div class="screen-2">
       <h1>Cumple<br>tu meta</h1>
       <h2>Descubre cómo alcanzar tu objetivo!</h2>
-      <input class="button" type="button" onclick=" location.href='http://www.google.com' " value="Prueba nuestros planes" name="boton">
+      <input  class="button" type="button" value="Prueba nuestros planes" name="boton">
     </div>
   </div>
   <Funcionalidades/>

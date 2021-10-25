@@ -6,6 +6,8 @@
       <div class="contenedores-NP">
         <h2 class="words">BAJAR DE PESO</h2>
         <img src="../assets/image/service_2.png" alt="Bajar de peso" />
+        <p class="centertext">hola como estas</p>
+        
       </div>
 
       <div class="contenedores-NP">
@@ -17,11 +19,32 @@
         <h2 class="words">GANAR MUSCULO</h2>
         <img src="../assets/image/service_3.png" alt="Ganar musculo" />
       </div>
+      
     </div>
+    <div class="contenedor-NP2">
+      <div class="contenedores-NP2">
+        <h2 class="words">BAJAR DE PESO</h2>
+        <img src="../assets/image/service_2.png" alt="Bajar de peso" />
+        
+      </div>
+
+      <div class="contenedores-NP2">
+        <h2 class="words">ESTAR EN FORMA</h2>
+        <img src="../assets/image/service_1.png" alt="estar en forma" />
+      </div>
+
+      <div class="contenedores-NP2">
+        <h2 class="words">GANAR MUSCULO</h2>
+        <img src="../assets/image/service_3.png" alt="Ganar musculo" />
+      </div>
+      
+    </div>
+    
   </section>
 </template>
 
 <style scoped>
+
 .main {
   display: flex;
   flex-direction: column;
@@ -80,5 +103,28 @@ h1 {
 }
 a {
   text-decoration: none;
+}
+
+.contenedor-NP2{
+  display: flex;
+  width: 80%;
+  justify-content: center;
+  margin-top: -406px;
+}
+
+.contenedores-NP2 {
+  background-color: #13171bb9;
+  width: 30%;
+  height: 100%;
+  flex-direction: row;
+  border: 6px solid rgb(38, 40, 41);
+  box-shadow: inset 0 0 0 0 #33b98d;
+  transition: ease-out 0.3s;
+}
+
+.centertext{
+  color: white;
+  margin-top: -170px;
+  margin-bottom: 152px;
 }
 </style>
