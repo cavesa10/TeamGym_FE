@@ -188,25 +188,36 @@
             </div>
           </div>
           <div class="container-button">
-          <button class="button-registro" type="submit">Guardar</button>
-          <span class="loading" v-if="loading">
-            <div class="loadingio-spinner-spinner-nwl5j7qfhjl">
-              <div class="ldio-qdyn8sbo9s">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
+            <button
+              class="button-eliminar"
+              type="button"
+              @click="eliminarCuentaAlert"
+            >
+              Eliminar Cuenta
+            </button>
+            <div style="width: 10%">
+            <button class="button-registro" type="submit">Guardar</button>
+            <span class="loading" v-if="loading">
+              <div class="loadingio-spinner-spinner-nwl5j7qfhjl">
+                <div class="ldio-qdyn8sbo9s">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
               </div>
+            </span>
+
             </div>
-          </span>
+
           </div>
         </div>
       </form>
@@ -259,7 +270,8 @@ export default {
         localStorage.getItem("token_access") === null ||
         localStorage.getItem("token_refresh") === null
       ) {
-        localStorage.clear();
+        alert("Sesión caducada")
+        this.$emit("logOut");
         this.$router.push({ name: "Home" });
         return;
       }
@@ -290,8 +302,7 @@ export default {
           this.loaded = true;
         })
         .catch(() => {
-          localStorage.clear();
-          this.$router.push({ name: "Home" });
+          alert("Error al cargar los datos");
           return;
         });
     },
@@ -301,7 +312,8 @@ export default {
         localStorage.getItem("token_access") === null ||
         localStorage.getItem("token_refresh") === null
       ) {
-        localStorage.clear();
+        alert("Sesión caducada")
+        this.$emit("logOut");
         this.$router.push({ name: "Home" });
         return;
       }
@@ -330,12 +342,38 @@ export default {
           this.plan_name = result.data.plan_id;
           this.username = result.data.username;
           this.loading = false;
-          this.showAlertExito()
+          this.showAlertExito();
+        })
+        .catch((error) => {
+          alert(error);
+          return;
+        });
+    },
+    eliminarCuentaConfirmada: async function () {
+      if (
+        localStorage.getItem("token_access") === null ||
+        localStorage.getItem("token_refresh") === null
+      ) {
+        alert("Sesión caducada")
+        this.$emit("logOut");
+        this.$router.push({ name: "Home" });
+        return;
+      }
+      await this.verifyToken();
+      let token = localStorage.getItem("token_access");
+      let userId = jwt_decode(token).user_id.toString();
+
+      axios
+        .delete(`https://teamgym-be.herokuapp.com/user/${userId}/`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((result) => {
+          localStorage.clear();
+          this.cuentaEliminadaAlert();
+          return;
         })
         .catch((error) => {
           console.log(error);
-          localStorage.clear();
-          this.$router.push({ name: "Home" });
           return;
         });
     },
@@ -350,7 +388,8 @@ export default {
           localStorage.setItem("token_access", result.data.access);
         })
         .catch(() => {
-          localStorage.clear();
+          alert("Sesión caducada")
+          this.$emit("logOut");
           this.$router.push({ name: "Home" });
           return;
         });
@@ -374,6 +413,38 @@ export default {
         confirmButtonColor: "#04b579",
       });
     },
+    eliminarCuentaAlert() {
+      this.$swal
+        .fire({
+          title: "¿Está seguro de eliminar su cuenta?",
+          text: "Una vez eliminada, no podrá recuperarla",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#04b579",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Si, eliminar",
+          cancelButtonText: "Cancelar",
+        })
+        .then((result) => {
+          if (result.value) {
+            this.eliminarCuentaConfirmada();
+          }
+        });
+    },
+    cuentaEliminadaAlert() {
+      this.$swal
+        .fire({
+          icon: "success",
+          title: "Cuenta eliminada",
+          text: "Presione Ok para continuar",
+          background: "rgb(255, 254, 254)",
+          confirmButtonColor: "#04b579",
+        })
+        .then(() => {
+          this.$router.push({ name: "Home" });
+          this.$emit("logOut");
+        });
+    },
   },
   created: async function () {
     this.getData();
@@ -389,7 +460,7 @@ export default {
   box-sizing: border-box;
 }
 .containers {
-  margin: 150px 9% 0 9%;
+  margin: 150px 9% 150px 9%;
 }
 .container-load {
   height: 60vh;
@@ -530,7 +601,7 @@ input[type="date"] {
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   border-radius: 50px;
   border-style: none;
-  width: 10%;
+  width: 100%;
   height: 50px;
 }
 .button-registro:hover {
@@ -538,21 +609,43 @@ input[type="date"] {
   background-color: #29c08e;
 }
 
-.container-button{
+.button-eliminar {
+  background-color: #b50404;
+  color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  border-radius: 50px;
+  border-style: none;
+  width: 10%;
+  height: 50px;
+}
+.button-eliminar:hover {
+  cursor: pointer;
+  background-color: #b504048a;
+}
+
+.container-button {
   width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 60px;
 }
 
 /* loading spiner */
 
 @keyframes ldio-qdyn8sbo9s {
-  0% { opacity: 1 }
-  100% { opacity: 0 }
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
-.loading{
+.loading {
   position: absolute;
 }
 .ldio-qdyn8sbo9s div {
-  left: 50px;
+  left: 20px;
   top: 4px;
   position: absolute;
   animation: ldio-qdyn8sbo9s linear 1s infinite;
@@ -561,51 +654,63 @@ input[type="date"] {
   height: 12px;
   border-radius: 3px / 6px;
   transform-origin: 3px 26px;
-}.ldio-qdyn8sbo9s div:nth-child(1) {
+}
+.ldio-qdyn8sbo9s div:nth-child(1) {
   transform: rotate(0deg);
   animation-delay: -0.9166666666666666s;
   background: #69fe13;
-}.ldio-qdyn8sbo9s div:nth-child(2) {
+}
+.ldio-qdyn8sbo9s div:nth-child(2) {
   transform: rotate(30deg);
   animation-delay: -0.8333333333333334s;
   background: #69fe13;
-}.ldio-qdyn8sbo9s div:nth-child(3) {
+}
+.ldio-qdyn8sbo9s div:nth-child(3) {
   transform: rotate(60deg);
   animation-delay: -0.75s;
   background: #69fe13;
-}.ldio-qdyn8sbo9s div:nth-child(4) {
+}
+.ldio-qdyn8sbo9s div:nth-child(4) {
   transform: rotate(90deg);
   animation-delay: -0.6666666666666666s;
   background: #69fe13;
-}.ldio-qdyn8sbo9s div:nth-child(5) {
+}
+.ldio-qdyn8sbo9s div:nth-child(5) {
   transform: rotate(120deg);
   animation-delay: -0.5833333333333334s;
   background: #69fe13;
-}.ldio-qdyn8sbo9s div:nth-child(6) {
+}
+.ldio-qdyn8sbo9s div:nth-child(6) {
   transform: rotate(150deg);
   animation-delay: -0.5s;
   background: #69fe13;
-}.ldio-qdyn8sbo9s div:nth-child(7) {
+}
+.ldio-qdyn8sbo9s div:nth-child(7) {
   transform: rotate(180deg);
   animation-delay: -0.4166666666666667s;
   background: #69fe13;
-}.ldio-qdyn8sbo9s div:nth-child(8) {
+}
+.ldio-qdyn8sbo9s div:nth-child(8) {
   transform: rotate(210deg);
   animation-delay: -0.3333333333333333s;
   background: #69fe13;
-}.ldio-qdyn8sbo9s div:nth-child(9) {
+}
+.ldio-qdyn8sbo9s div:nth-child(9) {
   transform: rotate(240deg);
   animation-delay: -0.25s;
   background: #69fe13;
-}.ldio-qdyn8sbo9s div:nth-child(10) {
+}
+.ldio-qdyn8sbo9s div:nth-child(10) {
   transform: rotate(270deg);
   animation-delay: -0.16666666666666666s;
   background: #69fe13;
-}.ldio-qdyn8sbo9s div:nth-child(11) {
+}
+.ldio-qdyn8sbo9s div:nth-child(11) {
   transform: rotate(300deg);
   animation-delay: -0.08333333333333333s;
   background: #69fe13;
-}.ldio-qdyn8sbo9s div:nth-child(12) {
+}
+.ldio-qdyn8sbo9s div:nth-child(12) {
   transform: rotate(330deg);
   animation-delay: 0s;
   background: #69fe13;
@@ -614,7 +719,6 @@ input[type="date"] {
   width: 84px;
   height: 84px;
   display: inline-block;
-  overflow: hidden;
   background: transparent;
 }
 .ldio-qdyn8sbo9s {
@@ -624,7 +728,10 @@ input[type="date"] {
   transform: translateZ(0) scale(0.84);
   backface-visibility: hidden;
   transform-origin: 0 0; /* see note above */
+  margin-left: 10px;
 }
-.ldio-qdyn8sbo9s div { box-sizing: content-box; }
+.ldio-qdyn8sbo9s div {
+  box-sizing: content-box;
+}
 /* generated by https://loading.io/ */
 </style>

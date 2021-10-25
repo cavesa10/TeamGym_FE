@@ -90,7 +90,8 @@ export default {
         localStorage.getItem("token_access") === null ||
         localStorage.getItem("token_refresh") === null
       ) {
-        localStorage.clear();
+        alert("Sesión caducada")
+        this.$emit("logOut");
         this.$router.push({ name: "Home" });
         return;
       }
@@ -118,9 +119,8 @@ export default {
           this.imc = this.ultimoImc(result.data.imc);
           this.loaded = true;
         })
-        .catch(() => {
-          localStorage.clear();
-          this.$router.push({ name: "Home" });
+        .catch((error) => {
+          alert("Error al cargar datos");
           return;
         });
     },
@@ -135,8 +135,9 @@ export default {
           localStorage.setItem("token_access", result.data.access);
         })
         .catch(() => {
-          localStorage.clear();
-          this.$router.push({ name: "Home" });
+        alert("Sesión caducada")
+        this.$emit("logOut");
+        this.$router.push({ name: "Home" });
           return;
         });
     },
