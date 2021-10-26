@@ -2,66 +2,27 @@
   <section class="containers">
     <div v-if="loaded" class="container-perfil">
       <div class="screen-1">
-        <img class="img-profile-man" src="../assets/image/man.png" />
+        <img class="img-profile-man" src="../assets/image/home_2.png" />
         <div class="username">
           <div class="username-basic">
             <h2 class="letra">Usuario</h2>
             <span>{{ username }}</span>
-
             <h2 class="letra">Correo</h2>
-            <label class="input">
-              <input v-model="email" class="input_field" placeholder=" " />
-              <!-- <span class="input__label">Correo</span> -->
-              <ButtonEditSVG/>
-            </label>
-            
+            <span>{{ email }}</span>
             <h2 class="letra">Nombres</h2>
-            <label class="input">
-              <input v-model="name" class="input__field" placeholder=" " />
-              <span class="input__label">Nombre</span>
-              <ButtonEditSVG/>
-            </label>
-
+            <span>{{ name }}</span>
             <h2 class="letra">Apellidos</h2>
-            <label class="input">
-              <input v-model="last_name" class="input_field" placeholder=" " />
-              <!-- <span class="input__label">Correo</span> -->
-              <ButtonEditSVG/>
-            </label>
+            <span>{{ last_name }}</span>
           </div>
           <div class="username-basic">
             <h2 class="letra">Frecuencia Física</h2>
-            <label class="input">
-              <input v-model="frequencia_fisica" class="input_field" placeholder=" " />
-              <!-- <span class="input__label">Correo</span> -->
-              <ButtonEditSVG/>
-            </label>
-
+            <span>{{ frequencia_fisica }}</span>
             <h2 class="letra">Objetivo</h2>
-            <label class="input">
-              <select v-model="objetivo_usuario" class="input_field" placeholder=" ">
-                <option :value="objetivo_usuario">{{objetivo_usuario}}</option>
-                <option :value="objetivo_usuario">{{objetivo_usuario}}</option>
-                <option :value="objetivo_usuario">{{objetivo_usuario}}</option>
-              </select>
-              <!-- <span class="input__label">Correo</span> -->
-              <ButtonEditSVG/>
-            </label>
-
+            <span>{{ objetivo_usuario }}</span>
             <h2 class="letra">Genero</h2>
-            <label class="input">
-              <input v-model="genero" class="input_field" placeholder=" " />
-              <!-- <span class="input__label">Correo</span> -->
-              <ButtonEditSVG/>
-            </label>
-
+            <span>{{ genero }}</span>
             <h2 class="letra">Plan</h2>
-            <label class="input">
-              <input v-model="plan_id" class="input_field" placeholder=" " />
-              <!-- <span class="input__label">Correo</span> -->
-              <ButtonEditSVG/>
-            </label>
-
+            <span>{{ plan_id }}</span>
           </div>
         </div>
         <h2 id="informe">Informe plan</h2>
@@ -82,9 +43,20 @@
       </div>
       <div class="divisor"></div>
       <div class="screen-2">
-        <img id="img-2" src="../assets/image/ejercicioProfile.png" />
+        <vue-gauge
+          :refid="'type-unique-id'"
+          :options="{
+            needleValue: value.vale,
+            arcDelimiters: [33, 66],
+            arcColors: ['rgb(239,214,19)', 'rgb(61,204,91)', 'rgb(255,84,84)'],
+            centralLabel: value.label,
+            needleColor: 'white',
+            outerNeedle: 'true',
+            chartWidth: '400',
+            rangeLabel: '',
+          }"
+        ></vue-gauge>
         <h2>Imc actual: {{ imc }}</h2>
-        <h2>Tu objetivo: {{ objetivo_usuario }}</h2>
       </div>
     </div>
   </section>
@@ -99,14 +71,13 @@
 import jwt_decode from "jwt-decode";
 import axios from "axios";
 import Loading from "./../components/Loading.vue";
-import ButtonEditSVG from "./../components/ButtonEditSVG.vue";
-
+import VueGauge from "vue-gauge";
 export default {
-  name: "Account",
+  name: "Perfil",
   emits: ["completedLogIn", "completedSignUp", "logOut"],
   components: {
     Loading,
-    ButtonEditSVG,
+    VueGauge,
   },
   data: function () {
     return {
@@ -124,6 +95,8 @@ export default {
       imcs: [{}],
       imc: 0,
       loaded: false,
+
+      value: { vale: 45, label: "Sobrepeso" },
     };
   },
   methods: {
@@ -132,7 +105,8 @@ export default {
         localStorage.getItem("token_access") === null ||
         localStorage.getItem("token_refresh") === null
       ) {
-        localStorage.clear();
+        alert("Sesión caducada");
+        this.$emit("logOut");
         this.$router.push({ name: "Home" });
         return;
       }
@@ -158,11 +132,11 @@ export default {
           this.plan_id = result.data.plan_id;
           this.imcs = result.data.imc;
           this.imc = this.ultimoImc(result.data.imc);
+          this.value = this.grafica(this.imc);
           this.loaded = true;
         })
-        .catch(() => {
-          localStorage.clear();
-          this.$router.push({ name: "Home" });
+        .catch((error) => {
+          alert("Error al cargar datos");
           return;
         });
     },
@@ -177,7 +151,8 @@ export default {
           localStorage.setItem("token_access", result.data.access);
         })
         .catch(() => {
-          localStorage.clear();
+          alert("Sesión caducada");
+          this.$emit("logOut");
           this.$router.push({ name: "Home" });
           return;
         });
@@ -185,7 +160,11 @@ export default {
     calcularEdad: function (fecha_nacimiento) {
       var hoy = new Date();
       var nacimiento = new Date(fecha_nacimiento);
-      nacimiento = new Date(nacimiento.setMinutes(nacimiento.getMinutes() + nacimiento.getTimezoneOffset()));
+      nacimiento = new Date(
+        nacimiento.setMinutes(
+          nacimiento.getMinutes() + nacimiento.getTimezoneOffset()
+        )
+      );
       var edad = hoy.getFullYear() - nacimiento.getFullYear();
       var m = hoy.getMonth() - nacimiento.getMonth();
       if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) {
@@ -196,7 +175,18 @@ export default {
     ultimoImc: function (imc) {
       return imc[imc.length - 1].imc_value;
     },
+    grafica: function (imc) {;
+      if (imc <= 18) {
+        return { vale: 15, label: "Bajo peso" };
+      }
+      if (imc > 18 && imc <= 25) {
+        return { vale: 50, label: "Normal" };
+      } else {
+        return { vale: 85, label: "Sobrepeso" };
+      }
+    },
   },
+
   created: async function () {
     this.getData();
   },
@@ -256,7 +246,7 @@ span {
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  align-content: flex-end;
+  align-content: center;
 }
 
 .username {
@@ -306,59 +296,9 @@ span {
   width: 200px;
   height: 200px;
 }
-.input {
-  position: relative;
-}
-.input__label {
-  position: absolute;
-  left: 0;
-  top: 0;
-  padding: calc(var(--size-bezel) * 0.75) calc(var(--size-bezel) * .5);
-  margin: calc(var(--size-bezel) * 0.75 + 3px) calc(var(--size-bezel) * .5);
-  background: pink;
-  white-space: nowrap;
-  transform: translate(0, 0);
-  transform-origin: 0 0;
-  background: var(--color-background);
-  transition: transform 120ms ease-in;
-  font-weight: bold;
-  line-height: 1.2;
-}
-.input__field {
-  cursor: text;
-  box-sizing: border-box;
-  display: block;
-  width: 100%;
-  border: 3px solid currentColor;
-  padding: calc(var(--size-bezel) * 1.5) var(--size-bezel);
-  color: currentColor;
-  background: transparent;
-  border-radius: var(--size-radius);
-}
-.input__field:not(:-moz-placeholder-shown) + .input__label {
-  transform: translate(0.25rem, -65%) scale(0.8);
-  color: var(--color-accent);
-}
-.input__field:not(:-ms-input-placeholder) + .input__label {
-  transform: translate(0.25rem, -65%) scale(0.8);
-  color: var(--color-accent);
-}
-.input__field:focus + .input__label, .input__field:not(:placeholder-shown) + .input__label {
-  transform: translate(0.25rem, -65%) scale(0.8);
-  color: var(--color-accent);
-}
-label
-{
-  background-color: none;
-  border: 0;
+svg  text {
+  stroke: #00ff00;
+  fill: #0000ff;
 
 }
-input
-{
-  background-color: rgb(38, 40, 41);
-  color: #69fe13;
-  border: 0;
-}
-
-
 </style>

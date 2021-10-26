@@ -105,9 +105,6 @@ export default {
           }
         });
     },
-    click: function () {
-      this.loaded = true;
-    },
   },
 };
 </script>

@@ -11,6 +11,7 @@
     viewBox="0 0 494.936 494.936"
     style="enable-background: new 0 0 494.936 494.936"
     xml:space="preserve"
+     fill="#fff"
   >
     <g>
       <g>
@@ -58,7 +59,8 @@ export default {
 svg{
     width: 20px;
     height: 20px;
-    
+    color:red;
+
 
 }
 </style>
