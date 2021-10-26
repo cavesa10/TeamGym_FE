@@ -2,7 +2,8 @@
   <section class="containers">
     <div v-if="loaded" class="container-perfil">
       <div class="screen-1">
-        <img class="img-profile-man" src="../assets/image/home_2.png" />
+        <img class="img-profile-man" src="../assets/image/perfil_man.png" />
+        <h2>Hola <span></span></h2>
         <div class="username">
           <div class="username-basic">
             <h2 class="letra">Usuario</h2>
