@@ -6,7 +6,7 @@
     <div class="screen-2">
       <h1>Cumple<br>tu meta</h1>
       <h2>Descubre cómo alcanzar tu objetivo!</h2>
-      <input  class="button" type="button" value="Prueba nuestros planes" name="boton">
+      <a href="#/Registro"><input class="button" type="button" value="Regístrese y adquiere un plan!" name="boton"></a>
     </div>
   </div>
   <Funcionalidades/>
@@ -76,11 +76,16 @@ h2{
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   border-radius: 50px;
   border-style: none;
-  width: 70%;
+  width: 150%;
   height: 90px;
+  margin-left: -70px;
+  box-shadow: inset 0 0 0 0 #33b98d;
+  transition: ease-out 0.3s;
 }
 .button:hover{
   cursor:pointer;
-  background-color: #29c08e;
+  background-color: #33b68a;
+  transition-duration: 0.2s;
+  box-shadow: inset 500px 0 0 0 #33b98d;
 }
 </style>

@@ -2,7 +2,7 @@
   <section class="containers">
     <div v-if="loaded" class="container-perfil">
       <div class="screen-1">
-        <img class="img-profile-man" src="../assets/image/man.png" />
+        <img class="img-profile-man" src="../assets/image/home_2.png" />
         <div class="username">
           <div class="username-basic">
             <h2 class="letra">Usuario</h2>
@@ -175,7 +175,7 @@ export default {
     ultimoImc: function (imc) {
       return imc[imc.length - 1].imc_value;
     },
-    grafica: function (imc) {
+    grafica: function (imc) {;
       if (imc <= 18) {
         return { vale: 15, label: "Bajo peso" };
       }
@@ -297,7 +297,8 @@ span {
   height: 200px;
 }
 svg  text {
-  stroke: #00ff00!important;
-  fill: #0000ff!important;
+  stroke: #00ff00;
+  fill: #0000ff;
+
 }
 </style>
