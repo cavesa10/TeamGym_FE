@@ -108,7 +108,6 @@ export default {
         localStorage.getItem("token_access") === null ||
         localStorage.getItem("token_refresh") === null
       ) {
-        alert("Sesión caducada");
         this.$emit("logOut");
         this.$router.push({ name: "Home" });
         return;
