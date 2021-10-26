@@ -96,7 +96,9 @@ export default {
       imc: 0,
       loaded: false,
 
-      value: { vale: 45, label: "Sobrepeso" },
+      genero: '',
+
+      value: { vale: 45, label: "Normal" },
     };
   },
   methods: {
@@ -177,7 +179,7 @@ export default {
     },
     grafica: function (imc) {;
       if (imc <= 18) {
-        return { vale: 15, label: "Bajo peso" };
+        return { vale: 15, label: "Delgado" };
       }
       if (imc > 18 && imc <= 25) {
         return { vale: 50, label: "Normal" };
@@ -295,10 +297,5 @@ span {
 #img-2 {
   width: 200px;
   height: 200px;
-}
-svg  text {
-  stroke: #00ff00;
-  fill: #0000ff;
-
 }
 </style>
