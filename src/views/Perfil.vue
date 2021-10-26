@@ -2,8 +2,9 @@
   <section class="containers">
     <div v-if="loaded" class="container-perfil">
       <div class="screen-1">
-        <img class="img-profile-man" src="../assets/image/perfil_man.png" />
-        <h2>Hola <span></span></h2>
+        <img v-if="genero=='Masculino'" class="img-profile-man" src="../assets/image/perfil_man.png" />
+        <img v-if="genero=='Femenino'" class="img-profile-man" src="../assets/image/perfil_woman.png" />
+        <img v-if="genero=='Prefiero no decirlo'" class="img-profile-man" src="../assets/image/perfil_other.png" />
         <div class="username">
           <div class="username-basic">
             <h2 class="letra">Usuario</h2>
