@@ -320,7 +320,7 @@ export default {
       await this.verifyToken();
       let token = localStorage.getItem("token_access");
       let userId = jwt_decode(token).user_id.toString();
-
+      this.user.plan_id = this.planConvertir(this.plan_name)
       axios
         .put(`https://teamgym-be.herokuapp.com/user/${userId}/`, this.user, {
           headers: { Authorization: `Bearer ${token}` },
@@ -401,6 +401,8 @@ export default {
         return 2;
       } else if (plan === "Avanzado") {
         return 3;
+      }else{
+        return 0;
       }
     },
     showAlertExito() {

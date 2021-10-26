@@ -38,9 +38,9 @@
 
         </div>
       </div>
-      
+
     </div>
-    
+
   </section>
 </template>
 
@@ -133,6 +133,13 @@ font-weight: lighter;
 color: #c9c9c9;
 }
 
+@media screen and (max-width: 1600px) {
+  .imagen_description{
+
+  width: 300px;
+
+  }
+}
 
 
 
