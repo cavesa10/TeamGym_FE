@@ -7,7 +7,8 @@
         v-on:submit.prevent="updateData"
       >
         <h2 class="letra">
-          Usuario <span class="data-text">{{username}}</span>, edita tus datos 
+          Usuario <span class="data-text">{{ username }}</span
+          >, edita tus datos
         </h2>
         <br />
         <br />
@@ -188,14 +189,6 @@
             </div>
           </div>
           <div class="container-button">
-            <button
-              class="button-eliminar"
-              type="button"
-              @click="eliminarCuentaAlert"
-            >
-              Eliminar Cuenta
-            </button>
-            <div style="width: 10%">
             <button class="button-registro" type="submit">Guardar</button>
             <span class="loading" v-if="loading">
               <div class="loadingio-spinner-spinner-nwl5j7qfhjl">
@@ -215,9 +208,6 @@
                 </div>
               </div>
             </span>
-
-            </div>
-
           </div>
         </div>
       </form>
@@ -243,8 +233,6 @@ export default {
   data: function () {
     return {
       user: {
-        username: "",
-        password: "contraseña",
         email: "",
         name: "",
         last_name: "",
@@ -270,7 +258,7 @@ export default {
         localStorage.getItem("token_access") === null ||
         localStorage.getItem("token_refresh") === null
       ) {
-        alert("Sesión caducada")
+        alert("Sesión caducada");
         this.$emit("logOut");
         this.$router.push({ name: "Home" });
         return;
@@ -284,8 +272,6 @@ export default {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((result) => {
-          this.user.username = result.data.username;
-          this.user.password = "contraseña";
           this.user.email = result.data.email;
           this.user.name = result.data.name;
           this.user.last_name = result.data.last_name;
@@ -312,7 +298,7 @@ export default {
         localStorage.getItem("token_access") === null ||
         localStorage.getItem("token_refresh") === null
       ) {
-        alert("Sesión caducada")
+        alert("Sesión caducada");
         this.$emit("logOut");
         this.$router.push({ name: "Home" });
         return;
@@ -320,14 +306,12 @@ export default {
       await this.verifyToken();
       let token = localStorage.getItem("token_access");
       let userId = jwt_decode(token).user_id.toString();
-      this.user.plan_id = this.planConvertir(this.plan_name)
+      this.user.plan_id = this.planConvertir(this.plan_name);
       axios
-        .put(`https://teamgym-be.herokuapp.com/user/${userId}/`, this.user, {
+        .put(`https://teamgym-be.herokuapp.com/user/update/${userId}/`, this.user, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((result) => {
-          this.user.username = result.data.username;
-          this.user.password = "contraseña";
           this.user.email = result.data.email;
           this.user.name = result.data.name;
           this.user.last_name = result.data.last_name;
@@ -354,7 +338,7 @@ export default {
         localStorage.getItem("token_access") === null ||
         localStorage.getItem("token_refresh") === null
       ) {
-        alert("Sesión caducada")
+        alert("Sesión caducada");
         this.$emit("logOut");
         this.$router.push({ name: "Home" });
         return;
@@ -388,7 +372,7 @@ export default {
           localStorage.setItem("token_access", result.data.access);
         })
         .catch(() => {
-          alert("Sesión caducada")
+          alert("Sesión caducada");
           this.$emit("logOut");
           this.$router.push({ name: "Home" });
           return;
@@ -401,7 +385,7 @@ export default {
         return 2;
       } else if (plan === "Avanzado") {
         return 3;
-      }else{
+      } else {
         return 0;
       }
     },
@@ -475,7 +459,6 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  
 }
 .screen-1 {
   background-color: rgb(38, 40, 41);
@@ -606,7 +589,7 @@ input[type="date"] {
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   border-radius: 50px;
   border-style: none;
-  width: 200%;
+  width: 25%;
   height: 50px;
 }
 .button-registro:hover {
@@ -614,27 +597,10 @@ input[type="date"] {
   background-color: #29c08e;
 }
 
-.button-eliminar {
-  background-color: #eb4848;
-  color: #fff;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  border-radius: 50px;
-  border-style: none;
-  width: 20%;
-  height: 50px;
-  margin-left: -100px;
-}
-.button-eliminar:hover {
-  cursor: pointer;
-  background-color: #b504048a;
-}
-
 .container-button {
   width: 100%;
   display: flex;
   justify-content: center;
-  gap: 60px;
 }
 
 /* loading spiner */
@@ -647,9 +613,7 @@ input[type="date"] {
     opacity: 0;
   }
 }
-.loading {
-  position: absolute;
-}
+
 .ldio-qdyn8sbo9s div {
   left: 20px;
   top: 4px;
@@ -742,9 +706,8 @@ input[type="date"] {
 /* generated by https://loading.io/ */
 
 @media screen and (max-width: 1600px) {
-.username {
-  width: 60%;
-  
-}
+  .username {
+    width: 60%;
+  }
 }
 </style>
