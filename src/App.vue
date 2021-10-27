@@ -34,9 +34,6 @@
             <router-link v-if="is_auth" to="/Perfil/MiPlan">Mi Plan</router-link>
           </li>
           <li>
-            <router-link v-if="is_auth" to="/Perfil/Editar">Editar Perfil</router-link>
-          </li>
-          <li>
             <router-link v-if="is_auth" v-on:click="logOut" to="/"
               >Cerrar Sesión</router-link
             >
