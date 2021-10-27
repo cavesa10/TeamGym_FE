@@ -66,6 +66,7 @@
   height: 100%;
   flex-direction: row;
   border: 6px solid rgb(38, 40, 41);
+  border-radius: 30px;
 }
 
 img {
@@ -111,6 +112,7 @@ a {
   justify-content: center;
   opacity: 0;
   transition: opacity 0.25s;
+  border-radius: 23px;
 }
 
 .img-overlay:hover{

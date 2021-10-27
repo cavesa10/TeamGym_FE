@@ -10,12 +10,12 @@
     <div class="screen-2">
       <div class="sesion">
         <h2 class="sesionTitle">Calcula tu IMC</h2>
-        <h3 class="sesionContent">Con tus datos, calcularemos el imc actual.</h3>
+        <h3 class="sesionContent">Tenemos una calculadora para que observes en que rango estas.</h3>
       </div>
 
       <div class="sesion">
         <h2 class="sesionTitle">Crea tu plan</h2>
-        <h3 class="sesionContent">Te ayudamos a crear tu plan de ejercicio de acuerdo a tus objetivos.</h3>
+        <h3 class="sesionContent">Entregamos tu plan de ejercicio de acuerdo al tipo de plan.</h3>
       </div>
 
       <div class="sesion">
