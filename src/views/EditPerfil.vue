@@ -1,15 +1,15 @@
 <template>
   <section class="containers">
+    <h2 class="letra">
+      Usuario <span class="data-text">{{ username }}</span
+      >, edita tus datos
+    </h2>
     <div v-if="loaded" class="container-perfil">
       <form
         class="container-perfil-form"
         autocomplete="off"
         v-on:submit.prevent="updateData"
       >
-        <h2 class="letra">
-          Usuario <span class="data-text">{{ username }}</span
-          >, edita tus datos
-        </h2>
         <br />
         <br />
         <br />
@@ -211,6 +211,54 @@
           </div>
         </div>
       </form>
+      <form
+        class="container-perfil-password"
+        autocomplete="off"
+        v-on:submit.prevent="updatePasswordAlert"
+      >
+        <br /><br /><br />
+        <div class="username-password">
+          <h2 class="letra">Cambiar contraseña</h2>
+          <br />
+          <div class="username-basic">
+            <div class="container_full_password">
+              <div class="container_label_input">
+                <label class="letra" for="password">Contraseña actual</label>
+                <div class="container_input">
+                  <input
+                    autocomplete="nope"
+                    type="password"
+                    id="password"
+                    v-model="passwordUser.old_password"
+                    class="input_field"
+                    required
+                  />
+                  <span class="focus-border"></span>
+                </div>
+              </div>
+              <div class="container_label_input">
+                <label class="letra" for="newPassword">Contraseña nueva</label>
+                <div class="container_input">
+                  <input
+                    autocomplete="nope"
+                    type="password"
+                    id="newPassword"
+                    v-model="passwordUser.new_password"
+                    class="input_field"
+                    required
+                  />
+                  <span class="focus-border"></span>
+                </div>
+              </div>
+            </div>
+            <div class="container-button">
+              <button style="width: 50%" class="button-registro" type="submit">
+                Cambiar
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
   </section>
   <section v-if="!loaded" class="container-load">
@@ -243,6 +291,10 @@ export default {
         peso: 0,
         genero: "",
         plan_id: 0,
+      },
+      passwordUser: {
+        old_password: "",
+        new_password: "",
       },
       plan_name: "",
       hoy: new Date().toISOString().split("T")[0],
@@ -308,9 +360,13 @@ export default {
       let userId = jwt_decode(token).user_id.toString();
       this.user.plan_id = this.planConvertir(this.plan_name);
       axios
-        .put(`https://teamgym-be.herokuapp.com/user/update/${userId}/`, this.user, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
+        .put(
+          `https://teamgym-be.herokuapp.com/user/update/${userId}/`,
+          this.user,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
         .then((result) => {
           this.user.email = result.data.email;
           this.user.name = result.data.name;
@@ -333,7 +389,7 @@ export default {
           return;
         });
     },
-    eliminarCuentaConfirmada: async function () {
+    updatePassword: async function () {
       if (
         localStorage.getItem("token_access") === null ||
         localStorage.getItem("token_refresh") === null
@@ -348,17 +404,38 @@ export default {
       let userId = jwt_decode(token).user_id.toString();
 
       axios
-        .delete(`https://teamgym-be.herokuapp.com/user/${userId}/`, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
+        .put(
+          `https://teamgym-be.herokuapp.com/user/password/${userId}/`,
+          this.passwordUser,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
         .then((result) => {
-          localStorage.clear();
-          this.cuentaEliminadaAlert();
+          this.passwordAlert();
+          this.passwordUser.old_password = "";
+          this.passwordUser.new_password = "";
           return;
         })
         .catch((error) => {
-          console.log(error);
-          return;
+          console.log(error.response.data);
+
+          if (error.response.data.old_password !== undefined) {
+            console.log(error.response.data.old_password);
+            if (error.response.data.old_password[0] === "Wrong password."){
+              this.showAlertPassWrong();
+              return;
+            }
+          }
+          if (
+            error.response.data.new_password[0] ===
+            "Old and new passwords are the same."
+          ) {
+            this.showAlertPassSame();
+            return;
+          }
+          alert(error);
+          return
         });
     },
     verifyToken: function () {
@@ -399,37 +476,51 @@ export default {
         confirmButtonColor: "#04b579",
       });
     },
-    eliminarCuentaAlert() {
+    showAlertPassSame() {
+      // Use sweetalert2
+      this.$swal.fire({
+        icon: "error",
+        title: "Las contraseñas ingresadas son iguales",
+        text: "Presione Ok para continuar",
+        background: "rgb(255, 254, 254)",
+        confirmButtonColor: "#04b579",
+      });
+    },
+    showAlertPassWrong() {
+      // Use sweetalert2
+      this.$swal.fire({
+        icon: "error",
+        title: "La contraseña actual es incorrecta",
+        text: "Presione Ok para continuar",
+        background: "rgb(255, 254, 254)",
+        confirmButtonColor: "#04b579",
+      });
+    },
+    updatePasswordAlert() {
       this.$swal
         .fire({
-          title: "¿Está seguro de eliminar su cuenta?",
-          text: "Una vez eliminada, no podrá recuperarla",
-          icon: "warning",
+          title: "¿Está seguro de actulizar su contraseña?",
+          icon: "question",
           showCancelButton: true,
           confirmButtonColor: "#04b579",
           cancelButtonColor: "#d33",
-          confirmButtonText: "Si, eliminar",
+          confirmButtonText: "Si, actualizar",
           cancelButtonText: "Cancelar",
         })
         .then((result) => {
           if (result.value) {
-            this.eliminarCuentaConfirmada();
+            this.updatePassword();
           }
         });
     },
-    cuentaEliminadaAlert() {
-      this.$swal
-        .fire({
-          icon: "success",
-          title: "Cuenta eliminada",
-          text: "Presione Ok para continuar",
-          background: "rgb(255, 254, 254)",
-          confirmButtonColor: "#04b579",
-        })
-        .then(() => {
-          this.$router.push({ name: "Home" });
-          this.$emit("logOut");
-        });
+    passwordAlert() {
+      this.$swal.fire({
+        icon: "success",
+        title: "Contraseña actualizada",
+        text: "Presione Ok para continuar",
+        background: "rgb(255, 254, 254)",
+        confirmButtonColor: "#04b579",
+      });
     },
   },
   created: async function () {
@@ -446,7 +537,11 @@ export default {
   box-sizing: border-box;
 }
 .containers {
-  margin: 150px 9% 150px 9%;
+  margin: 150px 0 150px 0;
+}
+.container-perfil {
+  display: flex;
+  align-items: start;
 }
 .container-load {
   height: 60vh;
@@ -459,6 +554,14 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 60%;
+}
+.container-perfil-password {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .screen-1 {
   background-color: rgb(38, 40, 41);
@@ -466,8 +569,19 @@ export default {
   flex-direction: column;
 }
 .username {
-  width: 50%;
+  width: 60%;
   height: 630px;
+  background-color: rgba(66, 68, 70, 0.397);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: -30px;
+  border-radius: 30px 30px 30px 30px;
+}
+.username-password {
+  width: 100%;
+  height: 400px;
   background-color: rgba(66, 68, 70, 0.397);
   display: flex;
   flex-direction: column;
@@ -505,6 +619,10 @@ export default {
 
 .container_full {
   display: flex;
+}
+.container_full_password {
+  display: flex;
+  flex-direction: column;
 }
 .container_label_input {
   display: flex;
@@ -707,7 +825,7 @@ input[type="date"] {
 
 @media screen and (max-width: 1600px) {
   .username {
-    width: 60%;
+    width: 80%;
   }
 }
 </style>
