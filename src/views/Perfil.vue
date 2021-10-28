@@ -98,19 +98,19 @@
             <th>Composicion corporal</th>
             <th>IMC</th>
           </tr>
-          <tr>
+          <tr v-bind:class="{ selected: value.style=='bajo'}" >
             <td>Muy bajo</td>
             <td>Menos de 18.5</td>
           </tr>
-          <tr>
+          <tr v-bind:class="{ selected: value.style=='normal' }" >
             <td>Normal</td>
             <td>18.5 – 24.9</td>
           </tr>
-          <tr>
+          <tr v-bind:class="{ selected: value.style=='sobrepeso' }" >
             <td>Sobrepeso</td>
             <td>25.0 – 29.9</td>
           </tr>
-          <tr>
+          <tr v-bind:class="{ selected: value.style=='obesidad' }" >
             <td>Obesidad</td>
             <td>Más de 30.0</td>
           </tr>
@@ -157,7 +157,7 @@ export default {
 
       genero: "",
 
-      value: { vale: 45, label: "Normal" },
+      value: { vale: 45, style: "none" },
     };
   },
   methods: {
@@ -237,15 +237,15 @@ export default {
     },
     grafica: function (imc) {
       if (imc <= 18.5) {
-        return { vale: 12.5, label: "" };
+        return { vale: 12.5, style: "bajo" };
       }
       if (imc > 18.5 && imc <= 24.9) {
-        return { vale: 37.5, label: "" };
+        return { vale: 37.5, style: "normal" };
       }
       if (imc >= 25 && imc <= 29.9) {
-        return { vale: 62.5, label: "" };
+        return { vale: 62.5, style: "sobrepeso" };
       } else {
-        return { vale: 87.5, label: "" };
+        return { vale: 87.5, style: "obesidad" };
       }
     },
     eliminarCuentaConfirmada: async function () {
@@ -355,10 +355,6 @@ span {
   padding: 8px;
 }
 
-#tbody tr:hover {
-  background-color: #ddd;
-}
-
 #tbody th {
   padding-top: 12px;
   padding-bottom: 12px;
@@ -414,7 +410,6 @@ span {
   flex-direction: row;
   justify-content: space-evenly;
   background-color: rgba(66, 68, 70, 0.397);
-  border-radius: 0px 0px 30px 30px;
   margin-top: 0px;
 }
 .username-basic {
@@ -506,5 +501,8 @@ span {
     background-color: rgba(66, 68, 70, 0.397);
     border-radius: 30px 30px 30px 30px;
     padding-top: 70px;
+}
+.selected{
+  background-color: rgb(66, 68, 70);
 }
 </style>
