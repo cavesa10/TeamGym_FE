@@ -1,14 +1,15 @@
 <template>
   <section class="containers">
+    <h2 class="letra">
+      Usuario <span class="data-text">{{ username }}</span
+      >, edita tus datos
+    </h2>
     <div v-if="loaded" class="container-perfil">
       <form
         class="container-perfil-form"
         autocomplete="off"
         v-on:submit.prevent="updateData"
       >
-        <h2 class="letra">
-          <span class="data-text">{{ username }},</span> edita tu perfil
-        </h2>
         <br />
         <br />
         <br />
@@ -188,14 +189,6 @@
             </div>
           </div>
           <div class="container-button">
-            <button
-              class="button-eliminar"
-              type="button"
-              @click="eliminarCuentaAlert"
-            >
-              Eliminar Cuenta
-            </button>
-            <div style="width: 10%">
             <button class="button-registro" type="submit">Guardar</button>
             <span class="loading" v-if="loading">
               <div class="loadingio-spinner-spinner-nwl5j7qfhjl">
@@ -215,9 +208,54 @@
                 </div>
               </div>
             </span>
-
+          </div>
+        </div>
+      </form>
+      <form
+        class="container-perfil-password"
+        autocomplete="off"
+        v-on:submit.prevent="updatePasswordAlert"
+      >
+        <br /><br /><br />
+        <div class="username-password">
+          <h2 class="letra">Cambiar contraseña</h2>
+          <br />
+          <div class="username-basic">
+            <div class="container_full_password">
+              <div class="container_label_input">
+                <label class="letra" for="password">Contraseña actual</label>
+                <div class="container_input">
+                  <input
+                    autocomplete="nope"
+                    type="password"
+                    id="password"
+                    v-model="passwordUser.old_password"
+                    class="input_field"
+                    required
+                  />
+                  <span class="focus-border"></span>
+                </div>
+              </div>
+              <div class="container_label_input">
+                <label class="letra" for="newPassword">Contraseña nueva</label>
+                <div class="container_input">
+                  <input
+                    autocomplete="nope"
+                    type="password"
+                    id="newPassword"
+                    v-model="passwordUser.new_password"
+                    class="input_field"
+                    required
+                  />
+                  <span class="focus-border"></span>
+                </div>
+              </div>
             </div>
-
+            <div class="container-button">
+              <button style="width: 50%" class="button-registro" type="submit">
+                Cambiar
+              </button>
+            </div>
           </div>
         </div>
       </form>
@@ -243,8 +281,6 @@ export default {
   data: function () {
     return {
       user: {
-        username: "",
-        password: "contraseña",
         email: "",
         name: "",
         last_name: "",
@@ -255,6 +291,10 @@ export default {
         peso: 0,
         genero: "",
         plan_id: 0,
+      },
+      passwordUser: {
+        old_password: "",
+        new_password: "",
       },
       plan_name: "",
       hoy: new Date().toISOString().split("T")[0],
@@ -270,7 +310,7 @@ export default {
         localStorage.getItem("token_access") === null ||
         localStorage.getItem("token_refresh") === null
       ) {
-        alert("Sesión caducada")
+        alert("Sesión caducada");
         this.$emit("logOut");
         this.$router.push({ name: "Home" });
         return;
@@ -284,8 +324,6 @@ export default {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((result) => {
-          this.user.username = result.data.username;
-          this.user.password = "contraseña";
           this.user.email = result.data.email;
           this.user.name = result.data.name;
           this.user.last_name = result.data.last_name;
@@ -312,7 +350,7 @@ export default {
         localStorage.getItem("token_access") === null ||
         localStorage.getItem("token_refresh") === null
       ) {
-        alert("Sesión caducada")
+        alert("Sesión caducada");
         this.$emit("logOut");
         this.$router.push({ name: "Home" });
         return;
@@ -320,14 +358,16 @@ export default {
       await this.verifyToken();
       let token = localStorage.getItem("token_access");
       let userId = jwt_decode(token).user_id.toString();
-      this.user.plan_id = this.planConvertir(this.plan_name)
+      this.user.plan_id = this.planConvertir(this.plan_name);
       axios
-        .put(`https://teamgym-be.herokuapp.com/user/${userId}/`, this.user, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
+        .put(
+          `https://teamgym-be.herokuapp.com/user/update/${userId}/`,
+          this.user,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
         .then((result) => {
-          this.user.username = result.data.username;
-          this.user.password = "contraseña";
           this.user.email = result.data.email;
           this.user.name = result.data.name;
           this.user.last_name = result.data.last_name;
@@ -349,12 +389,12 @@ export default {
           return;
         });
     },
-    eliminarCuentaConfirmada: async function () {
+    updatePassword: async function () {
       if (
         localStorage.getItem("token_access") === null ||
         localStorage.getItem("token_refresh") === null
       ) {
-        alert("Sesión caducada")
+        alert("Sesión caducada");
         this.$emit("logOut");
         this.$router.push({ name: "Home" });
         return;
@@ -364,17 +404,38 @@ export default {
       let userId = jwt_decode(token).user_id.toString();
 
       axios
-        .delete(`https://teamgym-be.herokuapp.com/user/${userId}/`, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
+        .put(
+          `https://teamgym-be.herokuapp.com/user/password/${userId}/`,
+          this.passwordUser,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
         .then((result) => {
-          localStorage.clear();
-          this.cuentaEliminadaAlert();
+          this.passwordAlert();
+          this.passwordUser.old_password = "";
+          this.passwordUser.new_password = "";
           return;
         })
         .catch((error) => {
-          console.log(error);
-          return;
+          console.log(error.response.data);
+
+          if (error.response.data.old_password !== undefined) {
+            console.log(error.response.data.old_password);
+            if (error.response.data.old_password[0] === "Wrong password."){
+              this.showAlertPassWrong();
+              return;
+            }
+          }
+          if (
+            error.response.data.new_password[0] ===
+            "Old and new passwords are the same."
+          ) {
+            this.showAlertPassSame();
+            return;
+          }
+          alert(error);
+          return
         });
     },
     verifyToken: function () {
@@ -388,7 +449,7 @@ export default {
           localStorage.setItem("token_access", result.data.access);
         })
         .catch(() => {
-          alert("Sesión caducada")
+          alert("Sesión caducada");
           this.$emit("logOut");
           this.$router.push({ name: "Home" });
           return;
@@ -401,7 +462,7 @@ export default {
         return 2;
       } else if (plan === "Avanzado") {
         return 3;
-      }else{
+      } else {
         return 0;
       }
     },
@@ -415,37 +476,51 @@ export default {
         confirmButtonColor: "#04b579",
       });
     },
-    eliminarCuentaAlert() {
+    showAlertPassSame() {
+      // Use sweetalert2
+      this.$swal.fire({
+        icon: "error",
+        title: "Las contraseñas ingresadas son iguales",
+        text: "Presione Ok para continuar",
+        background: "rgb(255, 254, 254)",
+        confirmButtonColor: "#04b579",
+      });
+    },
+    showAlertPassWrong() {
+      // Use sweetalert2
+      this.$swal.fire({
+        icon: "error",
+        title: "La contraseña actual es incorrecta",
+        text: "Presione Ok para continuar",
+        background: "rgb(255, 254, 254)",
+        confirmButtonColor: "#04b579",
+      });
+    },
+    updatePasswordAlert() {
       this.$swal
         .fire({
-          title: "¿Está seguro de eliminar su cuenta?",
-          text: "Una vez eliminada, no podrá recuperarla",
-          icon: "warning",
+          title: "¿Está seguro de actulizar su contraseña?",
+          icon: "question",
           showCancelButton: true,
           confirmButtonColor: "#04b579",
           cancelButtonColor: "#d33",
-          confirmButtonText: "Si, eliminar",
+          confirmButtonText: "Si, actualizar",
           cancelButtonText: "Cancelar",
         })
         .then((result) => {
           if (result.value) {
-            this.eliminarCuentaConfirmada();
+            this.updatePassword();
           }
         });
     },
-    cuentaEliminadaAlert() {
-      this.$swal
-        .fire({
-          icon: "success",
-          title: "Cuenta eliminada",
-          text: "Presione Ok para continuar",
-          background: "rgb(255, 254, 254)",
-          confirmButtonColor: "#04b579",
-        })
-        .then(() => {
-          this.$router.push({ name: "Home" });
-          this.$emit("logOut");
-        });
+    passwordAlert() {
+      this.$swal.fire({
+        icon: "success",
+        title: "Contraseña actualizada",
+        text: "Presione Ok para continuar",
+        background: "rgb(255, 254, 254)",
+        confirmButtonColor: "#04b579",
+      });
     },
   },
   created: async function () {
@@ -462,7 +537,11 @@ export default {
   box-sizing: border-box;
 }
 .containers {
-  margin: 150px 9% 150px 9%;
+  margin: 150px 0 150px 0;
+}
+.container-perfil {
+  display: flex;
+  align-items: start;
 }
 .container-load {
   height: 60vh;
@@ -475,6 +554,14 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 60%;
+}
+.container-perfil-password {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .screen-1 {
   background-color: rgb(38, 40, 41);
@@ -482,13 +569,26 @@ export default {
   flex-direction: column;
 }
 .username {
-  width: 100%;
-  height: auto;
-  background-color: rgb(38, 40, 41);
+  width: 60%;
+  height: 630px;
+  background-color: rgba(66, 68, 70, 0.397);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: -30px;
+  border-radius: 30px 30px 30px 30px;
+}
+.username-password {
+  width: 100%;
+  height: 400px;
+  background-color: rgba(66, 68, 70, 0.397);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: -30px;
+  border-radius: 30px 30px 30px 30px;
 }
 .username-basic {
   display: flex;
@@ -514,11 +614,15 @@ export default {
 
 .data-text {
   text-transform: capitalize;
-  color: rgb(68, 190, 11);
+  color: #04b579;
 }
 
 .container_full {
   display: flex;
+}
+.container_full_password {
+  display: flex;
+  flex-direction: column;
 }
 .container_label_input {
   display: flex;
@@ -537,11 +641,11 @@ export default {
   width: 100%;
   height: 40px;
   border: none;
-  border-bottom: 1px solid rgb(68, 212, 68);
+  border-bottom: 1px solid #04b579;
   background-color: transparent;
   outline: none;
   font-size: 16px;
-  color: rgb(68, 190, 11);
+  color: #04b579;
   font-family: "Open Sans", sans-serif;
   padding: 0;
 }
@@ -550,7 +654,7 @@ input[type="date"],
 input[type="email"],
 input[type="number"],
 select {
-  color: rgb(68, 190, 11);
+  color: #04b579;
   width: 100%;
   box-sizing: border-box;
   letter-spacing: 1px;
@@ -584,7 +688,7 @@ input[type="date"] {
   left: 0;
   width: 0;
   height: 100%;
-  background-color: #4caf50;
+  background-color: #04b579;
   transition: 0.4s;
 }
 .input_field ~ .focus-border:after {
@@ -603,7 +707,7 @@ input[type="date"] {
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   border-radius: 50px;
   border-style: none;
-  width: 100%;
+  width: 25%;
   height: 50px;
 }
 .button-registro:hover {
@@ -611,26 +715,10 @@ input[type="date"] {
   background-color: #29c08e;
 }
 
-.button-eliminar {
-  background-color: #b50404;
-  color: #fff;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  border-radius: 50px;
-  border-style: none;
-  width: 10%;
-  height: 50px;
-}
-.button-eliminar:hover {
-  cursor: pointer;
-  background-color: #b504048a;
-}
-
 .container-button {
   width: 100%;
   display: flex;
   justify-content: center;
-  gap: 60px;
 }
 
 /* loading spiner */
@@ -643,15 +731,13 @@ input[type="date"] {
     opacity: 0;
   }
 }
-.loading {
-  position: absolute;
-}
+
 .ldio-qdyn8sbo9s div {
   left: 20px;
   top: 4px;
   position: absolute;
   animation: ldio-qdyn8sbo9s linear 1s infinite;
-  background: #69fe13;
+  background: #04b579;
   width: 6px;
   height: 12px;
   border-radius: 3px / 6px;
@@ -660,62 +746,62 @@ input[type="date"] {
 .ldio-qdyn8sbo9s div:nth-child(1) {
   transform: rotate(0deg);
   animation-delay: -0.9166666666666666s;
-  background: #69fe13;
+  background: #04b579;
 }
 .ldio-qdyn8sbo9s div:nth-child(2) {
   transform: rotate(30deg);
   animation-delay: -0.8333333333333334s;
-  background: #69fe13;
+  background: #04b579;
 }
 .ldio-qdyn8sbo9s div:nth-child(3) {
   transform: rotate(60deg);
   animation-delay: -0.75s;
-  background: #69fe13;
+  background: #04b579;
 }
 .ldio-qdyn8sbo9s div:nth-child(4) {
   transform: rotate(90deg);
   animation-delay: -0.6666666666666666s;
-  background: #69fe13;
+  background: #04b579;
 }
 .ldio-qdyn8sbo9s div:nth-child(5) {
   transform: rotate(120deg);
   animation-delay: -0.5833333333333334s;
-  background: #69fe13;
+  background: #04b579;
 }
 .ldio-qdyn8sbo9s div:nth-child(6) {
   transform: rotate(150deg);
   animation-delay: -0.5s;
-  background: #69fe13;
+  background: #04b579;
 }
 .ldio-qdyn8sbo9s div:nth-child(7) {
   transform: rotate(180deg);
   animation-delay: -0.4166666666666667s;
-  background: #69fe13;
+  background: #04b579;
 }
 .ldio-qdyn8sbo9s div:nth-child(8) {
   transform: rotate(210deg);
   animation-delay: -0.3333333333333333s;
-  background: #69fe13;
+  background: #04b579;
 }
 .ldio-qdyn8sbo9s div:nth-child(9) {
   transform: rotate(240deg);
   animation-delay: -0.25s;
-  background: #69fe13;
+  background: #04b579;
 }
 .ldio-qdyn8sbo9s div:nth-child(10) {
   transform: rotate(270deg);
   animation-delay: -0.16666666666666666s;
-  background: #69fe13;
+  background: #04b579;
 }
 .ldio-qdyn8sbo9s div:nth-child(11) {
   transform: rotate(300deg);
   animation-delay: -0.08333333333333333s;
-  background: #69fe13;
+  background: #04b579;
 }
 .ldio-qdyn8sbo9s div:nth-child(12) {
   transform: rotate(330deg);
   animation-delay: 0s;
-  background: #69fe13;
+  background: #04b579;
 }
 .loadingio-spinner-spinner-nwl5j7qfhjl {
   width: 84px;
@@ -736,4 +822,10 @@ input[type="date"] {
   box-sizing: content-box;
 }
 /* generated by https://loading.io/ */
+
+@media screen and (max-width: 1600px) {
+  .username {
+    width: 80%;
+  }
+}
 </style>

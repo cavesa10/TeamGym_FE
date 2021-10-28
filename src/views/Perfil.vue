@@ -2,61 +2,120 @@
   <section class="containers">
     <div v-if="loaded" class="container-perfil">
       <div class="screen-1">
-        <img class="img-profile-man" src="../assets/image/home_2.png" />
+        <div>
+          <img
+            v-if="genero == 'Masculino'"
+            class="img-profile-man"
+            src="../assets/image/perfil_man.png"
+          />
+          <img
+            v-if="genero == 'Femenino'"
+            class="img-profile-man"
+            src="../assets/image/perfil_woman.png"
+          />
+          <img
+            v-if="genero == 'Prefiero no decirlo'"
+            class="img-profile-man"
+            src="../assets/image/perfil_other.png"
+          />
+          <h2 class="letra">
+            Hola <span>{{ name }}</span>
+          </h2>
+          <router-link to="/Perfil/Editar"
+            ><img
+              class="pencil-edit"
+              src="../assets/image/edit_pencil.png"
+              alt="editar"
+          /></router-link>
+          <img
+            class="delete-account"
+            src="../assets/image/delete_account.png"
+            alt="editar"
+            @click="eliminarCuentaAlert"
+          />
+        </div>
         <div class="username">
           <div class="username-basic">
-            <h2 class="letra">Usuario</h2>
-            <span>{{ username }}</span>
-            <h2 class="letra">Correo</h2>
-            <span>{{ email }}</span>
-            <h2 class="letra">Nombres</h2>
-            <span>{{ name }}</span>
-            <h2 class="letra">Apellidos</h2>
-            <span>{{ last_name }}</span>
+            <h2 class="letra-2-data">Nombres</h2>
+            <span class="letra-3">{{ name }}</span>
+            <h2 class="letra-2-data">Usuario</h2>
+            <span class="letra-3">{{ username }}</span>
+            <h2 class="letra-2-data">Genero</h2>
+            <span class="letra-3">{{ genero }}</span>
+
+            <h2 class="letra-2-data">Objetivo</h2>
+            <span class="letra-3">{{ objetivo_usuario }}</span>
           </div>
           <div class="username-basic">
-            <h2 class="letra">Frecuencia Física</h2>
-            <span>{{ frequencia_fisica }}</span>
-            <h2 class="letra">Objetivo</h2>
-            <span>{{ objetivo_usuario }}</span>
-            <h2 class="letra">Genero</h2>
-            <span>{{ genero }}</span>
-            <h2 class="letra">Plan</h2>
-            <span>{{ plan_id }}</span>
+            <h2 class="letra-2-data">Apellidos</h2>
+            <span class="letra-3">{{ last_name }}</span>
+            <h2 class="letra-2-data">Correo</h2>
+            <span class="letra-3">{{ email }}</span>
+            <h2 class="letra-2-data">Plan</h2>
+            <span class="letra-3">{{ plan_id }}</span>
+            <h2 class="letra-2-data">Frecuencia Física</h2>
+            <span class="letra-3">{{ frequencia_fisica }}</span>
           </div>
         </div>
-        <h2 id="informe">Informe plan</h2>
+        <div class="username-edit">
+          <p></p>
+        </div>
+
         <div class="imcData">
           <div>
-            <h2 class="letra-2">Peso</h2>
-            <h2 class="letra-2-data">{{ peso }} <span>Kg</span></h2>
+            <h2 class="letra-2-data">Peso</h2>
+            <h2 class="letra-2">{{ peso }} Kg</h2>
           </div>
           <div>
-            <h2 class="letra-2">Estatura:</h2>
-            <h2 class="letra-2-data">{{ estatura }} <span>m</span></h2>
+            <h2 class="letra-2-data">Estatura</h2>
+            <h2 class="letra-2">{{ estatura }} m</h2>
           </div>
           <div>
-            <h2 class="letra-2">Edad</h2>
-            <h2 class="letra-2-data">{{ edad }}</h2>
+            <h2 class="letra-2-data">Edad</h2>
+            <h2 class="letra-2">{{ edad }}</h2>
           </div>
         </div>
       </div>
-      <div class="divisor"></div>
       <div class="screen-2">
+        <h2 class="letra-2-data">IMC</h2>
         <vue-gauge
           :refid="'type-unique-id'"
           :options="{
             needleValue: value.vale,
-            arcDelimiters: [33, 66],
-            arcColors: ['rgb(239,214,19)', 'rgb(61,204,91)', 'rgb(255,84,84)'],
-            centralLabel: value.label,
+            arcDelimiters: [25, 50, 75],
+            arcColors: ['rgb(239,214,19)', '#04b579', 'orange', '#eb4848'],
             needleColor: 'white',
             outerNeedle: 'true',
             chartWidth: '400',
             rangeLabel: '',
           }"
         ></vue-gauge>
-        <h2>Imc actual: {{ imc }}</h2>
+        <h2 class="letra-2-data-imc">
+          <span>{{ imc }}</span>
+        </h2>
+        <table id="tbody">
+          <tr>
+            <th>Composicion corporal</th>
+            <th>IMC</th>
+          </tr>
+          <tr v-bind:class="{ selected: value.style=='bajo'}" >
+            <td>Muy bajo</td>
+            <td>Menos de 18.5</td>
+          </tr>
+          <tr v-bind:class="{ selected: value.style=='normal' }" >
+            <td>Normal</td>
+            <td>18.5 – 24.9</td>
+          </tr>
+          <tr v-bind:class="{ selected: value.style=='sobrepeso' }" >
+            <td>Sobrepeso</td>
+            <td>25.0 – 29.9</td>
+          </tr>
+          <tr v-bind:class="{ selected: value.style=='obesidad' }" >
+            <td>Obesidad</td>
+            <td>Más de 30.0</td>
+          </tr>
+        </table>
+        <router-link to="/Perfil/MiPlan" class="irplan">Mi Plan</router-link>
       </div>
     </div>
   </section>
@@ -96,9 +155,9 @@ export default {
       imc: 0,
       loaded: false,
 
-      genero: '',
+      genero: "",
 
-      value: { vale: 45, label: "Normal" },
+      value: { vale: 45, style: "none" },
     };
   },
   methods: {
@@ -107,7 +166,6 @@ export default {
         localStorage.getItem("token_access") === null ||
         localStorage.getItem("token_refresh") === null
       ) {
-        alert("Sesión caducada");
         this.$emit("logOut");
         this.$router.push({ name: "Home" });
         return;
@@ -177,15 +235,78 @@ export default {
     ultimoImc: function (imc) {
       return imc[imc.length - 1].imc_value;
     },
-    grafica: function (imc) {;
-      if (imc <= 18) {
-        return { vale: 15, label: "Delgado" };
+    grafica: function (imc) {
+      if (imc <= 18.5) {
+        return { vale: 12.5, style: "bajo" };
       }
-      if (imc > 18 && imc <= 25) {
-        return { vale: 50, label: "Normal" };
+      if (imc > 18.5 && imc <= 24.9) {
+        return { vale: 37.5, style: "normal" };
+      }
+      if (imc >= 25 && imc <= 29.9) {
+        return { vale: 62.5, style: "sobrepeso" };
       } else {
-        return { vale: 85, label: "Sobrepeso" };
+        return { vale: 87.5, style: "obesidad" };
       }
+    },
+    eliminarCuentaConfirmada: async function () {
+      if (
+        localStorage.getItem("token_access") === null ||
+        localStorage.getItem("token_refresh") === null
+      ) {
+        alert("Sesión caducada");
+        this.$emit("logOut");
+        this.$router.push({ name: "Home" });
+        return;
+      }
+      await this.verifyToken();
+      let token = localStorage.getItem("token_access");
+      let userId = jwt_decode(token).user_id.toString();
+
+      axios
+        .delete(`https://teamgym-be.herokuapp.com/user/${userId}/`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((result) => {
+          localStorage.clear();
+          this.cuentaEliminadaAlert();
+          return;
+        })
+        .catch((error) => {
+          console.log(error);
+          return;
+        });
+    },
+    eliminarCuentaAlert() {
+      this.$swal
+        .fire({
+          title: "¿Está seguro de eliminar su cuenta?",
+          text: "Una vez eliminada, no podrá recuperarla",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#04b579",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Si, eliminar",
+          cancelButtonText: "Cancelar",
+        })
+        .then((result) => {
+          if (result.value) {
+            this.eliminarCuentaConfirmada();
+          }
+        });
+    },
+    cuentaEliminadaAlert() {
+      this.$swal
+        .fire({
+          icon: "success",
+          title: "Cuenta eliminada",
+          text: "Presione Ok para continuar",
+          background: "rgb(255, 254, 254)",
+          confirmButtonColor: "#04b579",
+        })
+        .then(() => {
+          this.$router.push({ name: "Home" });
+          this.$emit("logOut");
+        });
     },
   },
 
@@ -199,10 +320,10 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap");
 span {
-  color: rgb(68, 212, 68);
+  color: #04b579;
 }
 .containers {
-  margin: 150px 9% 0 9%;
+  margin: 150px 9% 150px 9%;
 }
 .container-load {
   height: 60vh;
@@ -214,34 +335,58 @@ span {
   display: flex;
 }
 .screen-1 {
-  background-color: rgb(38, 40, 41);
+  background-color: rgba(66, 68, 70, 0.397);
   width: 56%;
   flex-direction: column;
+  border-radius: 30px 30px 30px 30px;
+  padding-top: 50px;
 }
-.divisor {
-  font-size: 6.2rem;
-  animation: pulsate 1.5s infinite alternate;
-  border: 0.01rem solid #fff;
 
-  box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 0.2rem #69fe13,
-    0 0 0.4rem #69fe13, 0 0 0.4rem #69fe13, inset 0 0 0.3rem #69fe13;
+#tbody {
+  font-family: "Orbitron", sans-serif;
+  border-collapse: collapse;
+  width: 75%;
+  margin-top: 130px;
+  border-radius: 5px 5px 0px 0px !important;
+}
+
+#tbody td,
+#tbody th {
+  padding: 8px;
+}
+
+#tbody th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #04b579;
+  color: white;
+  font-size: 23px;
+}
+
+#tbody td {
+  color: #fff;
+  font-size: 19px;
+  background-color: rgba(66, 68, 70, 0.397);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
 @keyframes pulsate {
   100% {
-    text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px #69fe13,
-      0 0 80px #69fe13, 0 0 90px #69fe13, 0 0 100px #69fe13, 0 0 150px #69fe13;
+    text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px #04b579,
+      0 0 80px #04b579, 0 0 90px #04b579, 0 0 100px #04b579, 0 0 150px #04b579;
   }
 
   0% {
-    text-shadow: 0 0 2px #fff, 0 0 4px #fff, 0 0 6px #fff, 0 0 10px #69fe13,
-      0 0 45px #69fe13, 0 0 55px #69fe13, 0 0 70px #69fe13, 0 0 80px #69fe13;
+    text-shadow: 0 0 2px #fff, 0 0 4px #fff, 0 0 6px #fff, 0 0 10px #04b579,
+      0 0 45px #04b579, 0 0 55px #04b579, 0 0 70px #04b579, 0 0 80px #04b579;
   }
 }
 .screen-2 {
   width: 44%;
   font-family: "Orbitron", sans-serif;
-  color: rgb(68, 212, 68);
+  color: #04b579;
   font-size: 25px;
   display: flex;
   flex-direction: column;
@@ -253,22 +398,65 @@ span {
 
 .username {
   width: 100%;
-  height: auto;
-  background-color: rgb(38, 40, 41);
+  height: 390px;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: flex-start;
+  border-radius: 30px 30px 0px 0px;
 }
 .imcData {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  background-color: rgba(66, 68, 70, 0.397);
+  margin-top: 0px;
 }
 .username-basic {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  width: 50%;
+}
+
+.pencil-edit {
+  background-color: #04b579;
+  width: 35px;
+  border-radius: 50%;
+}
+
+.pencil-edit:hover {
+  background-color: #1ed196;
+  cursor: pointer;
+}
+
+.irplan {
+  background-color: #04b579;
+  width: 180px;
+  height: 45px;
+  border-radius: 30px;
+  color: #fff;
+  margin-top: 100px;
+  text-decoration: none;
+  font-size: 32px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.irplan:hover {
+  background-color: #2ce0a4;
+}
+
+.delete-account {
+  background-color: #eb4848;
+  width: 35px;
+  border-radius: 50%;
+  margin-left: 10px;
+}
+
+.delete-account:hover {
+  background-color: #e95e5e;
+  cursor: pointer;
 }
 .letra {
   font-family: "Open Sans", sans-serif;
@@ -277,16 +465,27 @@ span {
 }
 .letra-2 {
   font-family: "Orbitron", sans-serif;
-  color: rgb(68, 212, 68);
+  color: #04b579;
   font-size: 25px;
+}
+
+.letra-3 {
+  font-family: "Orbitron", sans-serif;
+  color: #04b579;
+  font-size: 15px;
+  margin-top: -10px;
+  margin-bottom: 15px;
 }
 
 .letra-2-data {
   color: rgb(255, 255, 255);
 }
+.letra-2-data-imc {
+  margin-top: -130px;
+}
 #informe {
   font-family: "Orbitron", sans-serif;
-  color: rgb(68, 212, 68);
+  color: #04b579;
   font-size: 25px;
 }
 
@@ -297,5 +496,13 @@ span {
 #img-2 {
   width: 200px;
   height: 200px;
+}
+.vue-gauge-item{
+    background-color: rgba(66, 68, 70, 0.397);
+    border-radius: 30px 30px 30px 30px;
+    padding-top: 70px;
+}
+.selected{
+  background-color: rgb(66, 68, 70);
 }
 </style>

@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="lista-resproduccion">
-      <h2 class="ctitle">Plan {{ namePlan }}</h2>
+      <h2 class="ctitle">Plan <br><span class="plan-label">{{ namePlan }}</span></h2>
       <ul class="episodios">
         <li v-for="video in videos" :key="video.video_url" @click="playVid(video.video_url)" v-bind:class="{'selected': idVideoFirst === video.video_url}" >
           <h3 class="etitle">{{video.video_nombre}}</h3>
@@ -122,6 +122,7 @@ export default {
 .container-videos-planes {
   display: flex;
   margin: 150px 10% 150px 10%;
+  
 }
 .lista-resproduccion {
   width: 25%;
@@ -130,6 +131,7 @@ export default {
   border-right: 1px solid #ddd;
   min-height: 1px;
   overflow:auto;
+  border-radius: 0 30px 30px 0;
 }
 
 .lista-resproduccion::-webkit-scrollbar {
@@ -181,10 +183,14 @@ ul.episodios li {
   flex-direction: column;
   align-items: flex-end;
   border: 1px solid #eee;
-  background-color: #efefef;
+  background-color: #e4e3e3;
   cursor: pointer;
   width: 83%;
   padding: 10px 15px;
+}
+
+ul.episodios li:hover{
+  background-color: #dfdede;
 }
 h3.etitle {
   margin: 0 0 5px;
@@ -205,5 +211,9 @@ span.eduration {
 iframe {
   width: 100%;
   height: 80vh;
+}
+
+.plan-label{
+  color: #04b579;
 }
 </style>

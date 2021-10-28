@@ -10,6 +10,7 @@
     </div>
   </div>
   <Funcionalidades/>
+  <Calculator/>
   <NuestrosPlanes/>
   <Footer/>
 </template>
@@ -18,6 +19,7 @@
 import Funcionalidades from "../components/Funcionalidades.vue"
 import Loading from "../components/Loading.vue"
 import NuestrosPlanes from "../components/NuestrosPlanes.vue"
+import Calculator from "../components/Calculator.vue"
 import Footer from "../components/Footer.vue"
 export default {
   name: 'Home',
@@ -26,6 +28,7 @@ export default {
     Funcionalidades,
     Loading,
     NuestrosPlanes,
+    Calculator,
     Footer
   }
 }
